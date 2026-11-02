@@ -18,7 +18,8 @@ Download with curl, then upload into the slot (see `figma-build.md`). 9:16 resul
 
 - Follows the **topic**, not Haysam yellow/brown. Claude lesson → warm terracotta; Veo → teal/blue; finance/offer → sky; agents → warm neutral.
 - Light tints are welcome. Do not force the sky offer gradient into images.
-- Render objects **on the exact cover background colour** (say the hex in the prompt). Transparent cut-outs leave a white fringe; avoid them.
+- The image decides the cover's colours, not the other way round: the cover is repainted from the picture (`scripts/palette.py` → `palette`). Never put Haysam colours or the template background hex in the prompt.
+- Object-on-background slots: ask for a clean, even background in the topic's own colour so the canvas can match it; transparent cut-outs leave a white fringe, avoid them.
 
 ## Prompt skeleton
 
@@ -33,12 +34,12 @@ high detail, photographic, adult and premium (not toy, not cartoon), no text, no
 
 | Layout | Prompt focus |
 | --- | --- |
-| A Tool Hero | cinematic still of what the tool makes; top quarter near black `#270601`; warm rim light |
+| A Tool Hero | cinematic still of what the tool makes, in the topic's own colours; calm, even area in the top quarter for the headline |
 | A3 Photo | full-bleed scene; darkest tone at the top for the headline |
-| E Big Button | 3–4 glass objects of the topic floating in a band, on `#e5e9ff` |
+| E Big Button | 3–4 objects of the topic floating in a band, on an even background in the topic's colour |
 | F Process | a vertical stack of 3 glass stages rising from a card; separate image: one 3D glass cursor |
 | G Letter | single glass envelope / card, soft violet or topic tint, centred, on the bg colour |
-| H Studio | person (adult, natural, confident) in a white seamless studio `#f1f2f2`, holding/using the topic prop, framed from the chest up in the lower 60% |
+| H Studio | person (adult, natural, confident) in a seamless studio whose colour suits the topic (white by default), holding/using the topic prop, framed from the chest up in the lower 60% |
 | J UI in Scene | person leaning out of a floating app window, glass cursor nearby, top 40% empty |
 | K Split | one frame split diagonally: left the "before" (sketch, raw), right the "after" (photo, finished) |
 | L Mascot | 4–6 matte geometric characters around an empty centre, playful poses, pastel topic colours on white |

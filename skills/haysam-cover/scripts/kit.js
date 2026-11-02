@@ -212,12 +212,12 @@ async function sticker(parent, o) {
   return s;
 }
 
-// RESET-style pop button: same-hue rim + glow, no dark outline
+// RESET-style pop button: same-hue rim + glow, no dark outline. No lime: it reads as Higgsfield
 const POP = { yellow: ['#fff3a8', '#fee252', '#f5b01f', '#58160c'], sky: ['#b8f4ff', '#5fe0ff', '#1b9cff', '#06203f'],
-  ember: ['#ffb38f', '#ff6a2b', '#df3909', '#ffffff'], lime: ['#f2ffb0', '#c9f24a', '#7fc31c', '#1d2a05'],
+  ember: ['#ffb38f', '#ff6a2b', '#df3909', '#ffffff'],
   violet: ['#e4d4ff', '#a873ff', '#6b2ee6', '#ffffff'], pink: ['#ffd1ea', '#ff7ac2', '#e0338f', '#ffffff'] };
 async function pop(parent, o) {
-  const [a, b, c, ink] = POP[o.tone || 'yellow'];
+  const [a, b, c, ink] = POP[o.tone] || POP.yellow;
   const f = figma.createAutoLayout('HORIZONTAL'); f.name = 'CTA · pop';
   f.paddingLeft = f.paddingRight = 72; f.paddingTop = 40; f.paddingBottom = 44; f.counterAxisAlignItems = 'CENTER'; f.itemSpacing = 20;
   f.cornerRadius = 44; f.fills = [vgrad([[0, a, 1], [0.55, b, 1], [1, c, 1]])];
@@ -339,9 +339,34 @@ async function buildCover(spec) {
   return { ...ids, outsideSafeBand: out };
 }
 
+// image covers: the picture sets the colours. Brand stays only in the logo lockup, tool logo and font;
+// buttons (UI / … instances) keep their own colours.
+function applyPalette(root, p) {
+  const lum = h => { const c = hexRGB(h); return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; };
+  const inInstance = n => { for (let a = n.parent; a && a !== root; a = a.parent) if (a.type === 'INSTANCE') return true; return false; };
+  const isChip = n => (n.type === 'FRAME') && /^(STICKER|Frame|chip)/.test(n.name) && n.findOne(c => c.type === 'TEXT')
+    && Array.isArray(n.fills) && n.fills.some(f => f.type === 'SOLID' && f.visible !== false);
+  if (p.bg) root.fills = [solid(p.bg)];
+  for (const n of root.findAll(() => true)) {
+    if (inInstance(n)) continue;
+    if (/^glow/.test(n.name)) { n.visible = false; continue; }                       // brand comet: off on image covers
+    if (/^fade/.test(n.name) && p.bg && Array.isArray(n.fills) && n.fills[0]?.gradientStops) {
+      const c = hexRGB(p.bg);
+      n.fills = n.fills.map(f => ({ ...f, gradientStops: f.gradientStops.map(st => ({ ...st, color: { ...c, a: st.color.a } })) }));
+      continue;
+    }
+    if (isChip(n) && p.accent) { n.fills = [solid(p.accent)]; for (const t of n.findAll(c => c.type === 'TEXT')) t.fills = [solid(p.onAccent || (lum(p.accent) > 0.6 ? '#111111' : '#ffffff'))]; continue; }
+    if (n.type === 'TEXT' && p.ink && !(n.parent && isChip(n.parent))) n.fills = [solid(p.ink)];
+  }
+  const brand = p.brand || (p.ink && lum(p.ink) > 0.5 ? 'White' : 'Ink');
+  for (const b of root.findAll(n => n.type === 'INSTANCE' && n.mainComponent?.parent?.name === 'Brand / HAYSAM')) b.setProperties({ Color: brand });
+}
+
 // template mode: the cover is a copy of a COVER SYSTEM component (the team's own design), only content changes.
 // spec: { template: 'Tool Hero', name, texts: { layerName: 'new text' }, tool: 'Claude', brand: 'Ink',
-//         variants: { layerName: { Prop: 'Value' } }, hide: [layerName], log }
+//         variants: { layerName: { Prop: 'Value' } }, hide: [layerName],
+//         palette: { bg, ink, accent, onAccent }  ← image covers: colours come from the picture, not the brand
+//         log }
 async function fromTemplate(spec) {
   const sys = figma.root.children.find(p => p.name === 'COVER SYSTEM');
   if (!sys) throw new Error('COVER SYSTEM page missing: this file is not a copy of the Haysam Cover template');
@@ -384,6 +409,8 @@ async function fromTemplate(spec) {
   if (spec.brand) for (const b of inst.findAll(n => n.type === 'INSTANCE' && n.mainComponent?.parent?.name === 'Brand / HAYSAM')) b.setProperties({ Color: spec.brand });
   for (const [k, props] of Object.entries(spec.variants || {})) { const n = byName(k); if (n && n.type === 'INSTANCE') n.setProperties(props); else missing.push(k); }
   for (const k of spec.hide || []) { const n = byName(k); if (n) n.visible = false; else missing.push(k); }
+
+  if (spec.palette) applyPalette(inst, spec.palette);
 
   const images = {};
   for (const n of inst.findAll(n => 'fills' in n && Array.isArray(n.fills) && n.fills.some(f => f.type === 'IMAGE'))) images[n.name] = n.id;

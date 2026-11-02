@@ -20,7 +20,7 @@
 | offer/sky → cyan → blue | `#9EE8FF` `#2CD3F3` `#1B7BFF` | offers and prices only |
 | lettering ink metal | `#270601 → #58160C → #A0301A` | gradient headlines (`'inkMetal'`) |
 
-Near-white (`#FBFBFC`, `#F1F2F2`, `#FFFFFF`) is also fine when an AI photo sets the colour. One accent per post.
+These colours are for covers **without** an image. On image covers the picture sets every colour (canvas, fades, headline, chip); Haysam shows only through the logo lockup, the tool logo and the font. Buttons may keep brand colour. One accent per post.
 
 ## Type
 Mood fonts change every post (see `spec.md`). Headline big (110–230 px), max 2 lines, tight leading (88–95%). Inter only for chips and labels. No small meta text.

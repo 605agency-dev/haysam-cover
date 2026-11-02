@@ -69,3 +69,7 @@ One Nano Banana 2 image per slide (`aspect_ratio: '4:5'` for full-bleed slides, 
 ## Check
 
 `get_screenshot` the section (`maxDimension` 2000). Look for: same grid on middle slides, nothing under the counter, the hook readable as a cover, the last slide closing clearly. One fix pass.
+
+## Colour
+
+Slides with an image follow the image-cover rule: colours come from the pictures (`scripts/palette.py` on the hook image, reuse that palette for the set). Haysam shows only in the logo, tool logo, font and page counter; buttons may keep brand colour.

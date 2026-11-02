@@ -1,8 +1,8 @@
 # Templates (COVER SYSTEM page)
 
-The Haysam Cover template file holds the team's own cover designs as components on the `COVER SYSTEM` page. **These are the base.** A cover is a copy of one of them with the content swapped. The design itself (composition, fonts, sizes, glow, buttons, colours) stays exactly as the team drew it, so every user's Claude produces the same quality.
+The Haysam Cover reference file holds 15 worked cover designs as components on the `COVER SYSTEM` page. **They are a reference, not a rule.** Screenshot the ones close to the idea before designing; build freely with `buildCover`. `fromTemplate` is an optional shortcut that only works in a file duplicated from the reference (it needs the `COVER SYSTEM` page) and only when a template fits the idea as it is.
 
-Template file (users duplicate it once): https://www.figma.com/design/5fwBVBqshynrcOhdDIfAKI
+Reference file (read only): https://www.figma.com/design/5fwBVBqshynrcOhdDIfAKI
 
 ```js
 return await fromTemplate({
@@ -13,16 +13,21 @@ return await fromTemplate({
   brand: 'Yellow + White',               // optional: Brand / HAYSAM colour
   variants: { 'glow · comet → hero': { Tone: 'Sky' } },   // optional: nested component variants by layer name
   hide: [],                              // optional: layer names to hide
+  palette: { bg, ink, accent, onAccent }, // image covers: from scripts/palette.py, repaints canvas/fades/text/chip, hides glow
   log: { layout: 'A Tool Hero', bg: '#270601', font: 'news', accent: '#fee252', idea: '…' },
 });
 // → { cover, crop, template, images: { layerName: nodeId }, missing: [keys not found], log }
 ```
+
+**Image covers always get a `palette`** (colours from the picture; brand only in logo, tool logo and font). Buttons keep their own colours.
 
 Text keys are layer names (or the current text when the layer is named by its content). `missing` lists keys that matched nothing: fix the key and edit that layer, do not ignore it.
 
 **Every image slot carries the template's test picture** (Veo surfer, studio guy…). Always replace each slot in `images` with a new Nano Banana 2 image, or hide it. Never ship a cover with the template's test image.
 
 ## The 15 templates
+
+Node ids in the reference file: Tool Hero `55:68`, Logo only `62:340`, Photo Full-bleed `73:1366`, Board `55:104`, Special Offer `58:309`, Big Stat `62:378`, Big Button `62:471`, Process Stack `73:1257`, Letter `75:1435`, Studio + Prop `81:1916`, Type Only `80:1660`, UI in Scene `83:1996`, Split `83:2110`, Colour Wash + Chips `85:2262` (lime wash: recolour), Mascot `86:2366`.
 
 | Template | Use for | Text keys | Image slots (generate at) | Tool |
 | --- | --- | --- | --- | --- |
@@ -52,7 +57,7 @@ Unused chips or lines: put them in `hide`.
 | any `Brand / HAYSAM` (use `brand`) | `Color` | `Yellow + White`, `Ink`, `Yellow + Ink`, `White` |
 | `CTA · glass` | `Tone` | `Clear`, `Offer` |
 | `UI / Big Button · 3D` | `Tone` | `Sunrise`, `Sky`, `Ink` |
-| `CTA · pop` | `Tone` | `Yellow`, `Sky`, `Ember`, `Lime` |
+| `CTA · pop` | `Tone` | `Yellow`, `Sky`, `Ember` (never `Lime`: Higgsfield's colour) |
 | `bg · tiles` / `bg · dots` / `bg · lines` | `Pattern` | `Plain`, `Dots`, `Lines`, `Tiles` |
 
 ## Tool logos
@@ -61,4 +66,4 @@ The template has `Tool / Google Veo · icon`, `Tool / Claude · icon`, `Tool / F
 
 ## Variety
 
-Rotation works the same as before (COVER LOG, last 3 differ in template, background, font, accent). With 15 templates plus the `variants` switches (glow tone, button tone, pattern, brand colour) there are many combinations before anything repeats. Use `buildCover` (free composition from `layouts.md`) only when no template fits the idea; say so in the reply.
+Rotation: COVER LOG, the last 3 differ in composition, background, font and accent. Free composition is the default; a template copy counts as its archetype in the log.

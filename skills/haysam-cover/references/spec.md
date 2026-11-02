@@ -6,6 +6,7 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 {
   name: 'Yangi darslik · Claude',      // layer name: "Cover / <name> · 9:16" and "· 4:5"
   bg: '#f6f7ff',                        // colour | ['#top', '#bottom'] gradient | { color, opacity }
+                                        // | { stops: [[pos, '#hex'], …] } (image covers: see below)
   pattern: 'dots',                      // optional: dots | lines | grid | tiles | { kind, color, opacity }
   page: 'Haysam Covers',                // optional target page (created if missing)
   log: { layout: 'I', bg: 'lines', font: 'loud', accent: '#d97757', idea: 'lesson number as hero' },
@@ -33,7 +34,7 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 | `chip` | `text`, `bg`, `color`, `dot`, `icon` (tool), `stroke`, `font`, `size`, `radius`, `flat`, `x`, `y`, `rotation` | pill tag |
 | `chips` | `items: ['a','b']` or objects, `chip: {defaults}`, `gap`, `y` | centred row |
 | `sticker` | `text`, `bg`, `color`, `rotation` (−4), `y` | mono label, slight tilt |
-| `pop` | `text`, `tone` (yellow/sky/ember/lime/violet/pink), `size`, `y` | glossy RESET-style CTA |
+| `pop` | `text`, `tone` (yellow/sky/ember/violet/pink; no lime), `size`, `y` | glossy RESET-style CTA |
 | `bigButton` | `text`, `tone` (sunrise/sky/ink), `arrow`, `y` | 3D keycap |
 | `glassButton` | `text`, `tone` (clear/offer), `x`, `y` | liquid glass |
 | `cursor` | `x`, `y`, `label`, `color` | Figma multiplayer cursor |
@@ -60,3 +61,19 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 ## Carousels
 
 `buildCarousel(SPEC)` builds 4:5 slides with the same element types. Format and slide grids: `carousel.md`.
+
+## Image covers without seams
+
+When the image does not fill the 1080×1920 canvas, build the canvas from the picture's own edge colours (`palette.py` → `bg` top edge, `bgOther` bottom edge) with solid stops up to the image edges, and fade the image edges into the same colours:
+
+```js
+// image slot at y 380, h 1080 → top edge 380/1920 ≈ 0.2, bottom edge 1460/1920 ≈ 0.76
+bg: { stops: [[0, '#8e887c'], [0.2, '#8e887c'], [0.76, '#282a12'], [1, '#282a12']] },
+elements: [
+  { type: 'image', slot: 'hero', x: 0, y: 380, w: 1080, h: 1080 },
+  { type: 'fade', y: 380, h: 260, dir: 'down', color: '#8e887c' },
+  { type: 'fade', y: 1200, h: 260, dir: 'up', color: '#282a12' },
+  …
+]
+```
+

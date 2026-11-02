@@ -50,5 +50,5 @@ If the first choice breaks the rule, take the second. Log the new cover with `lo
 | Claude, sayt yig'ish darsligi | anyone builds a site in a day | person in a white studio holding a glowing site card | H, Anton caps, Claude terracotta chip |
 | 1-oy atigi 100 so'm | the first month costs almost nothing | "100" as a giant sky number inside a Figma selection | D, Bricolage, sky gradient |
 | Qanday qilib Veo'da video qilish | from words to a finished shot | stack of frames rising from a prompt card, glass cursor | F, Big Shoulders, teal |
-| 12 ta AI model bitta joyda | everything in one place | lime wash with floating model tags | M, Bricolage, lime |
+| 12 ta AI model bitta joyda | everything in one place | warm yellow→orange wash with floating model tags | M, Bricolage, yellow |
 | Agentlar haqida yangi darslik | your agents work while you sleep | matte geometric characters busy around the headline | L, Bricolage, warm brown |

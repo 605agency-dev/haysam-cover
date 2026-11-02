@@ -9,7 +9,7 @@ Haysam is an AI **education** platform. Its covers read as learning content (les
 
 You turn a short brief into a finished, editable cover (or a carousel, section 7) in the **user's own Figma file**:
 
-1. idea in words → 2. layout from the picker (never repeating the last 3) → 3. AI image (Nano Banana 2) → 4. build with `scripts/kit.js` → 5. check 9:16 and 4:5 → 6. log it.
+1. idea in words → 2. composition from the archetypes (never repeating the last 3) → 3. AI image (Nano Banana 2) → 4. build with `scripts/kit.js` → 5. check 9:16 and 4:5 → 6. log it.
 
 ## 0 · Connections (no keys, ever)
 
@@ -22,16 +22,15 @@ If a tool is missing, tell the user in one line to connect that service from Cla
 
 On claude.ai (no shell): images cannot be uploaded with curl. Build the cover with an empty image slot, give the user the generated image link, and tell them to drop it on the `IMAGE · …` layer. Recommend Claude Desktop or Claude Code for the full flow.
 
-## 1 · Where to build: a copy of the Haysam Cover template
+## 1 · Where to build, what to look at
 
-The base of every cover is the team's own design: the components on the `COVER SYSTEM` page of the Haysam Cover template (`https://www.figma.com/design/5fwBVBqshynrcOhdDIfAKI`). Covers must come out the same in every user's Claude, so they are built from those components, not redrawn.
+**Free creativity, one brand.** Covers do not have to fit a template. They have to read as Haysam. The team's Figma file is the reference library, not a mould.
 
-- Work in the user's **copy** of that file (it has a `COVER SYSTEM` page). Ask for its link once; remember it for the session.
-- No copy yet → tell the user in two lines: open the template link, Figma menu → **Duplicate** (to their drafts), send the new link. Wait for it. Figma cannot copy components between files, so this one click is required.
-- Never write to the original template file `5fwBVBqshynrcOhdDIfAKI`; it is the master for everyone. Read and screenshot only.
-- Covers go to the `Haysam Covers` page of the copy (created automatically). The COVER LOG lives there too (or on `HAYSAM KIT` if the file has it).
-- A tool logo the template lacks: add it once with the kit setup, tools only (`references/figma-build.md` § Setup, skip `haysam`).
-- The user refuses to duplicate: fall back to a plain file + kit setup + `buildCover` (free composition), and say the result is an approximation of the team templates.
+- **Look first.** Before designing, `get_screenshot` the reference file `5fwBVBqshynrcOhdDIfAKI` (read only): the Higgsfield study `77:1660` (10 archetypes), the hidden DNA `66:886`, and the 1–2 templates closest to the idea (node ids in `references/templates.md`). Text summary: `references/archetypes.md`.
+- **Build** in any Figma file the user can edit (the `Figma fayl` link from the brief, or ask for one; no link → `create_new_file`). Covers go to the `Haysam Covers` page (created automatically) together with the COVER LOG.
+- **First time in a file:** run the kit setup (`references/figma-build.md` § Setup): it puts the HAYSAM logo, glow and tool logos on a `HAYSAM KIT` page.
+- **Optional shortcut:** if the file is a duplicate of the reference (it has a `COVER SYSTEM` page) and one template fits the idea as it is, `fromTemplate` copies it in one call. Never required, never ask the user to duplicate.
+- Never write to `5fwBVBqshynrcOhdDIfAKI`; it is the master for everyone.
 
 ## 2 · Brief (ask only what is missing, in one short message, in the user's language)
 
@@ -48,7 +47,7 @@ The base of every cover is the team's own design: the components on the `COVER S
 
 If the user gives a full sentence brief, extract the fields yourself and go.
 
-A message with a `HAYSAM BRIEF` block comes from the brief form on haysam-cover.vercel.app. Its lines map to the table (Post turi, Format, Sarlavha, Tool, Yo'nalish, Qo'shimcha matn, Tugma = CTA, Rasm, Figma fayl, Sahifalar). Treat it as complete: ask nothing, go straight to the idea. A `Figma fayl` link is the file to build in; without it, use section 1. `Rasm: O'z rasmimni beraman` means wait for the photo before building the image slot.
+A message with a `HAYSAM BRIEF` block comes from the brief form on haysam-cover.vercel.app. Its lines map to the table (Post turi, Format, Sarlavha, Tool, Yo'nalish, Qo'shimcha matn, Tugma = CTA, Rasm, Figma fayl, Sahifalar). Treat it as complete: ask nothing, go straight to the idea. A `Figma fayl` link is the file to build in; without it, see section 1. `Rasm: O'z rasmimni beraman` means wait for the photo before building the image slot.
 
 ## 3 · Idea first
 
@@ -59,27 +58,30 @@ Before any layout, write two lines for yourself (show them to the user in the fi
 
 Rules and examples: `references/idea-engine.md`.
 
-## 4 · Template + rotation
+## 4 · Composition + rotation
 
 1. Read the last 3 rows of the COVER LOG (snippet in `references/figma-build.md`).
-2. Pick the template from the meaning→layout picker in `references/idea-engine.md` (layout letters A–M = templates in `references/templates.md`). The Higgsfield study on the COVER SYSTEM page (`SPEC · WHITE STYLES`, 10 archetypes) is the reference for the idea and the image; screenshot it when unsure.
-3. The new cover must differ from each of the last 3 in **template, background, mood font and accent colour**. Use the template `variants` (glow tone, button tone, pattern, brand colour) to change background and accent. If the best template was used recently, take the second best.
-4. Brand tokens and type: `references/brand-dna.md`.
+2. Pick the composition from the idea: one of the 10 archetypes in `references/archetypes.md` (studio + prop, 3D hero object, UI in scene, type only, Figma canvas, card fan, editorial paper, mascot, split, colour wash + chips), a recipe from `references/layouts.md`, or something new the idea asks for. Mixing two archetypes is fine.
+3. The new cover must differ from each of the last 3 in **composition, background, mood font and accent colour**. Image covers take background and accent from the picture.
+4. Keep the hidden DNA (`references/archetypes.md`): lockup, real tool logo, mood font, 4:5 band, clean lettering. Brand tokens and type: `references/brand-dna.md`.
 
 ## 5 · AI image (Nano Banana 2 only)
 
 - Model `nano_banana_2_1` on Higgsfield. Generating the cover image is part of the request; do not ask again. Never generate video unless the user explicitly asks.
-- 9:16 slots: aspect `9:16`; object bands: `1:1`. Palette follows the **topic**, not brand yellow/brown. Render on the exact cover background colour so it blends.
+- 9:16 slots: aspect `9:16`; object bands: `1:1`. The prompt's palette comes only from the **topic**; never ask for Haysam colours or the template's background in the prompt.
+- **Image covers: the picture owns the colour.** When a cover has an AI image, its colours come 100% from the topic (a nature lesson looks like nature, a finance topic like finance). Haysam does not tint it. Our style on an image cover is only: the HAYSAM logo (top or bottom), the tool logo, and a fitting font. No brand yellow/brown backgrounds, no comet glow, no yellow stickers. The one exception is a button (`UI / …` components), which may keep brand colour.
 - Prompt patterns and rules: `references/ai-images.md`.
 - The user's own photo: use it as the image (or as `image_references` for a restyle).
 
 ## 6 · Build
 
-Paste `scripts/kit.js` plus `return await fromTemplate(SPEC)` into one `use_figma` call (SPEC: `references/templates.md`). It copies the template, swaps texts, tool logo and variants, and returns the cover id, the 4:5 frame id, `images` (slot layer → node id) and `missing` (keys that matched nothing). `buildCover` (free composition, `references/spec.md` + `layouts.md`) is only for ideas no template fits. Then:
+Default: free composition. Paste `scripts/kit.js` plus `return await buildCover(SPEC)` into one `use_figma` call (SPEC: `references/spec.md`, recipes: `references/layouts.md`). It returns the cover id, the 4:5 frame id and `images` (slot → node id). Shortcut when a template fits as it is: `return await fromTemplate(SPEC)` (`references/templates.md`, file must have `COVER SYSTEM`).
 
-1. Generate one image per slot in `images` and upload them: download with curl, `upload_assets` with `nodeIds` = the slot ids, POST the files (details in `references/figma-build.md`). Every slot still shows the template's test picture until replaced, so replace or hide all of them. The 4:5 frame is an instance, so it updates by itself.
-2. `get_screenshot` the 9:16 cover **and** the 4:5 frame. Fix anything clipped, crowded or unreadable (longer text than the template's may need a smaller font size on that layer). One fix pass, then stop.
-3. Include `log: { layout, bg, font, accent, idea }` in the SPEC so the cover is written to the COVER LOG.
+1. Image covers, in this order: generate the image(s) first, download, run `python3 scripts/palette.py <image> [top|bottom]` (where the headline sits). Use its colours for canvas, fades, headline and chip (`fromTemplate` takes it as `palette`). No Python: pick the same four colours by eye.
+2. **No seams:** when the image does not fill the canvas, the canvas is a gradient with a solid stop of the image's top-edge colour down to the image's top, and the bottom-edge colour (`bgOther`) from the image's bottom; fades over the image edges use the same two colours.
+3. Upload one image per slot: download with curl, `upload_assets` with `nodeIds` = the slot ids, POST the files (details in `references/figma-build.md`). Template copies carry test pictures: replace or hide every slot. The 4:5 frame is an instance, so it updates by itself.
+4. `get_screenshot` the 9:16 cover **and** the 4:5 frame. Fix anything clipped, crowded or unreadable. One fix pass, then stop.
+5. Include `log: { layout, bg, font, accent, idea }` in the SPEC so the cover is written to the COVER LOG (`layout` = archetype or recipe name).
 
 ## 7 · Carousel posts
 
@@ -95,14 +97,17 @@ When the format is karusel (or the user lists pages / slides), build a carousel 
 
 ## 8 · Reply
 
-Short, in the user's language: the idea (insight + metaphor), the layout used, the Figma link to the cover (`https://www.figma.com/design/<fileKey>?node-id=<id with - instead of :>`), and one offer (another variant, a different layout, or the matching story/reel frame).
+Short, in the user's language: the idea (insight + metaphor), the composition used (archetype), the Figma link to the cover (`https://www.figma.com/design/<fileKey>?node-id=<id with - instead of :>`), and one offer (another variant, a different layout, or the matching story/reel frame).
 
 ## Hard rules
 
 - Tool logos: official files only (`assets/logos/`, the brand's press kit, Wikimedia, Simple Icons). Never generated, never redrawn.
 - Key content inside the 4:5 band (y 285–1635 of 1920). Carousels are 4:5 already: keep key content above the page counter (y < 1230).
+- No lime / acid green anywhere (wash, chip, button, accent): it reads as Higgsfield. Take the study's compositions, never its colours.
 - One accent per post. Near-white backgrounds by default; dark only when the idea needs night/cinema.
+- Image covers: colours from the picture only (`palette`). Brand = logo lockup + tool logo + font; buttons may keep brand colour. Brand colours (yellow, brown, lavender, comet glow) belong to covers without an image.
 - Headline max 2 lines; big. Small meta text is avoided.
 - No dark outlines on buttons; glow is same-hue.
 - Everything stays editable: real text layers, components, image fills. Never flatten the cover into one picture.
-- Never change the template components on `COVER SYSTEM` themselves; edit only the copy on `Haysam Covers`.
+- Never write to the reference file `5fwBVBqshynrcOhdDIfAKI`. In a duplicate, never change the `COVER SYSTEM` components; edit only what is on `Haysam Covers`.
+- Templates are a reference, not a rule: free composition is the default.

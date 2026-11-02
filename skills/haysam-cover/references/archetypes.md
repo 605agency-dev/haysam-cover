@@ -27,6 +27,6 @@ General laws of the study: near-white background (#F4F4F6) · one accent colour 
 4. Key content inside the 4:5 band (y 285–1635).
 5. Lettering: smooth gradient or flat, thin sheen at most. No embossed shadow, no WordArt.
 
-**No lime green.** Acid / lime green (#C9F24A, #D4FF4F and near) and black chips with lime text are Higgsfield's own signature: on a Haysam cover they read as a Higgsfield post. Never use them as wash, chip, button or accent. The study is Higgsfield's work, so take its compositions, not its colours. The `Colour Wash + Chips` template in the reference file still has a lime wash: recolour it when you use it. If `palette.py` returns a lime accent, take the image's second strongest tone instead.
+**No lime green.** Acid / lime green (#C9F24A, #D4FF4F and near) and black chips with lime text are Higgsfield's own signature: on a Haysam cover they read as a Higgsfield post. Never use them as wash, chip, button or accent. The study is Higgsfield's work, so take its compositions, not its colours. If `palette.py` returns a lime accent, take the image's second strongest tone instead.
 
 **Colour:** covers without an image use the brand palette (lavender #E5E9FF, ink #58160C, yellow #FEE252, orange #DF3909, comet glow; sky gradient only for offers). **Covers with an AI image take every colour from the picture** (`scripts/palette.py`); the brand shows only in the lockup, tool logo and font, and buttons may keep brand colour. This overrides DNA item "only our colours" on the Figma page.

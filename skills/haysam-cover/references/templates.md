@@ -27,7 +27,7 @@ Text keys are layer names (or the current text when the layer is named by its co
 
 ## The 15 templates
 
-Node ids in the reference file: Tool Hero `55:68`, Logo only `62:340`, Photo Full-bleed `73:1366`, Board `55:104`, Special Offer `58:309`, Big Stat `62:378`, Big Button `62:471`, Process Stack `73:1257`, Letter `75:1435`, Studio + Prop `81:1916`, Type Only `80:1660`, UI in Scene `83:1996`, Split `83:2110`, Colour Wash + Chips `85:2262` (lime wash: recolour), Mascot `86:2366`.
+Node ids in the reference file: Tool Hero `55:68`, Logo only `62:340`, Photo Full-bleed `73:1366`, Board `55:104`, Special Offer `58:309`, Big Stat `62:378`, Big Button `62:471`, Process Stack `73:1257`, Letter `75:1435`, Studio + Prop `81:1916`, Type Only `80:1660`, UI in Scene `83:1996`, Split `83:2110`, Colour Wash + Chips `85:2262`, Mascot `86:2366`.
 
 | Template | Use for | Text keys | Image slots (generate at) | Tool |
 | --- | --- | --- | --- | --- |

@@ -48,7 +48,8 @@ async function font(f) {
 let KIT = null;
 async function kit() {
   if (KIT) return KIT;
-  const page = figma.root.children.find(p => p.name === 'HAYSAM KIT');
+  // a duplicate of the reference file has no kit page but carries the same logos on COVER SYSTEM
+  const page = figma.root.children.find(p => p.name === 'HAYSAM KIT') || figma.root.children.find(p => p.name === 'COVER SYSTEM');
   if (!page) throw new Error('HAYSAM KIT page missing: run scripts/setup-kit.js first');
   await page.loadAsync();
   KIT = page;
@@ -56,7 +57,7 @@ async function kit() {
 }
 async function brandComp(color = 'Ink') {
   const set = (await kit()).findOne(n => n.type === 'COMPONENT_SET' && n.name === 'Brand / HAYSAM');
-  const c = set && set.children.find(v => v.name === 'Color=' + color);
+  const c = set && set.children.find(v => v.name.replace(/ /g, '') === ('Color=' + color).replace(/ /g, ''));
   if (!c) throw new Error('Brand variant missing: ' + color);
   return c;
 }
@@ -292,6 +293,8 @@ async function lockup(parent, o) {
     const ic = (await toolComp(o.tool)).createInstance(); ic.rescale((o.iconH || 60) / ic.height); row.appendChild(ic);
     if (o.toolName !== false) { const n = figma.createText(); n.fontName = await font('ui'); n.characters = o.toolName || o.tool; n.fontSize = 42; n.fills = [solid(ink)]; row.appendChild(n); }
   }
+  row.resize(row.children.reduce((w, c) => w + c.width, 0) + row.itemSpacing * (row.children.length - 1), row.height);   // the row's own width is stale right after rescaling a child
+  row.primaryAxisSizingMode = 'AUTO';
   return place(row, parent, { y: 330, ...o });
 }
 
@@ -301,7 +304,17 @@ async function toolIcon(parent, o) {
   return place(i, parent, { ...o, name: 'TOOL LOGO · ' + o.tool });
 }
 
-const BUILDERS = { text, rect, image, fade, ellipse, wash, glow, chip, chips: chipsRow, sticker, pop, bigButton, glassButton, cursor, selection, lockup, toolIcon,
+// app-icon tile: rounded white square holding the official tool logo (floating logo sets, tool lists)
+async function tile(parent, o) {
+  const s = o.size || 180, f = figma.createFrame();
+  f.name = 'TILE · ' + o.tool; f.resize(s, s); f.cornerRadius = Math.round(s * 0.26); f.fills = [paint(o.bg || '#ffffff')];
+  f.effects = [inner('#ffffff', 0.9, 2, 1), shadow(o.shadowColor || '#3a2a1a', 0.14, Math.round(s * 0.12), Math.round(s * 0.3))];
+  const i = (await toolComp(o.tool)).createInstance(); i.rescale(s * (o.logo || 0.6) / Math.max(i.width, i.height));
+  f.appendChild(i); i.x = Math.round((s - i.width) / 2); i.y = Math.round((s - i.height) / 2);
+  return place(f, parent, o);
+}
+
+const BUILDERS = { text, rect, image, fade, ellipse, wash, glow, chip, chips: chipsRow, sticker, pop, bigButton, glassButton, cursor, selection, lockup, toolIcon, tile,
   pattern: (p, o) => pattern(p, o.kind, o.color, o.opacity) };
 
 // ---------- main ----------
@@ -454,7 +467,9 @@ async function buildCarousel(spec) {
     }
     const pager = s.pager ?? spec.pager ?? 'count';
     if (pager === 'count') {
-      const bg = s.bg || spec.bg || '#f6f7ff', c = typeof bg === 'string' && bg !== 'inkMetal' ? hexRGB(bg) : { r: 0, g: 0, b: 0 };
+      const bg = s.bg || spec.bg || '#f6f7ff';                            // gradients: judge by the bottom colour, under the counter
+      const last = typeof bg === 'string' ? bg : bg.stops ? bg.stops[bg.stops.length - 1][1] : Array.isArray(bg) ? [].concat(bg[bg.length - 1]).find(v => typeof v === 'string') : bg.color;
+      const c = last && last !== 'inkMetal' ? hexRGB(last) : { r: 0, g: 0, b: 0 };
       const dark = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.45;   // light counter on dark slides
       await text(f, { text: pad2(i + 1) + ' / ' + pad2(n), font: 'brandMedium', size: 28, ls: 4, lh: 100, y: SLIDE_H - 96,
         color: { color: s.pagerColor || (dark ? '#ffffff' : spec.pagerColor || '#58160c'), opacity: 0.7 }, name: 'pager' });

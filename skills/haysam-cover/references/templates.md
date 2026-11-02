@@ -62,7 +62,7 @@ Unused chips or lines: put them in `hide`.
 
 ## Tool logos
 
-The template has `Tool / Google Veo · icon`, `Tool / Claude · icon`, `Tool / Figma · icon`, `Tool / Gemini · icon`. Any other tool: add it once from `assets/logos/` with the kit setup (PART B, tools only; skip `haysam`). `tool` finds both `Tool / X` and `Tool / X · icon`.
+The template has `Tool / Google Veo · icon`, `Tool / Claude · icon`, `Tool / Figma · icon`, `Tool / Gemini · icon`, `Tool / ChatGPT · icon`, `Tool / NotebookLM · icon`, `Tool / Gamma · icon`, `Tool / Canva · icon`, `Tool / Grammarly · icon`. Any other tool: add it once from `assets/logos/` with the kit setup (PART B, tools only; skip `haysam`). `tool` finds both `Tool / X` and `Tool / X · icon`.
 
 ## Variety
 

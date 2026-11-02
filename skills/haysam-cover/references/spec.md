@@ -31,6 +31,7 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 | `rect` | `x`, `y`, `w`, `h`, `fill`, `radius`, `stroke`, `effects` | |
 | `lockup` | `y` (330), `tool`, `toolName`, `brand` (Ink/Yellow+Ink/Yellow+White/White), `color`, `brandH`, `iconH` | brand alone when no `tool` |
 | `toolIcon` | `tool`, `size`, `x`, `y`, `shadow` | big official logo |
+| `tile` | `tool`, `size` (180), `logo` (0.6 of size), `bg`, `x`, `y`, `rotation` | app-icon tile: white rounded square with the official logo; floating logo sets, tool lists |
 | `chip` | `text`, `bg`, `color`, `dot`, `icon` (tool), `stroke`, `font`, `size`, `radius`, `flat`, `x`, `y`, `rotation` | pill tag |
 | `chips` | `items: ['a','b']` or objects, `chip: {defaults}`, `gap`, `y` | centred row |
 | `sticker` | `text`, `bg`, `color`, `rotation` (−4), `y` | mono label, slight tilt |

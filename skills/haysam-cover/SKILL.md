@@ -1,6 +1,6 @@
 ---
 name: haysam-cover
-description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) and carousel posts (4:5 slides with a page counter) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka", "karusel", "carousel", "slayd". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit. Also triggers on a message containing a HAYSAM BRIEF block.
+description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) and carousel posts (4:5 slides on the brand lavender + dot grid) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka", "karusel", "carousel", "slayd". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit. Also triggers on a message containing a HAYSAM BRIEF block.
 ---
 
 # Haysam Cover
@@ -89,9 +89,10 @@ When the format is karusel (or the user lists pages / slides), build a carousel 
 
 - **4:5 only**: every slide is 1080×1350. No 9:16 master, no crop. Element `y` runs 0 to 1350.
 - **Page count is the user's.** Build exactly the number of pages given, one slide per page text, in order. Keep their words; shorten only to fit, and show what you shortened.
-- **Every slide has an image** unless the brief says Rasmsiz: one Nano Banana 2 image per slide, aspect `4:5` (`1:1` for object bands), same palette and lighting across the set so it reads as one post.
-- **One system across slides**: same background family, same mood font, same accent. Slide 1 is the hook (the cover idea, brand lockup); middle slides share one grid; the last slide closes (CTA, save, or summary).
-- **Page counter** (`01 / 06`) sits at the bottom of every slide automatically; it turns light on dark slides. `pager: false` hides it on a slide that needs the space.
+- **Brand background on every slide**: lavender gradient `#E5E9FF` → `#F6F7FF` + the dot grid (kit default). **No page counter** (`01 / 06`): it reads as AI slop.
+- **Every slide has an image** unless the brief says Rasmsiz: one Nano Banana 2 object render per slide on a seamless plain backdrop, then `scripts/cutout.py` drops the backdrop so the object sits on the gradient + dots. Same material and light across the set.
+- **One system across slides**: same mood font, same accent, same grid. Slide 1 is the hook (the cover idea, brand lockup); middle slides share one grid; the last slide closes (CTA, save, or summary).
+- Every tool named on a slide gets its **real logo** (`tile` element); add missing logos from official sources first.
 - Build with `return await buildCarousel(SPEC)` (format: `references/carousel.md`). It returns the section id, slide ids and `images` keyed `page:slot` (`'2:hero'`). Upload images the same way as covers, then screenshot the section once and fix.
 - Log it like a cover; the layout field is written as `carousel N · <grid>`.
 
@@ -102,7 +103,7 @@ Short, in the user's language: the idea (insight + metaphor), the composition us
 ## Hard rules
 
 - Tool logos: official files only (`assets/logos/`, the brand's press kit, Wikimedia, Simple Icons). Never generated, never redrawn.
-- Key content inside the 4:5 band (y 285–1635 of 1920). Carousels are 4:5 already: keep key content above the page counter (y < 1230).
+- Key content inside the 4:5 band (y 285–1635 of 1920). Carousels are 4:5 already: keep key content above y 1260. No page counters.
 - No lime / acid green anywhere (wash, chip, button, accent): it reads as Higgsfield. Take the study's compositions, never its colours.
 - One accent per post. Near-white backgrounds by default; dark only when the idea needs night/cinema.
 - Image covers: colours from the picture only (`palette`). Brand = logo lockup + tool logo + font; buttons may keep brand colour. Brand colours (yellow, brown, lavender, comet glow) belong to covers without an image.

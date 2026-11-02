@@ -438,7 +438,20 @@ async function fromTemplate(spec) {
 }
 
 // carousel: every slide is a 1080×1350 frame (4:5 only, element y is 0–1350),
-// laid out left to right inside one section; a page counter sits at the bottom
+// laid out left to right inside one section; brand lavender gradient + dot grid by default.
+// No page counter: '02 / 07' labels read as AI slop
+const SLIDE_BG = ['#e5e9ff', '#f6f7ff'];
+// the file's own BG / Pattern component (COVER SYSTEM) when present, else drawn by the kit
+async function slidePattern(f, kind, color, opacity) {
+  const name = 'Pattern=' + kind[0].toUpperCase() + kind.slice(1);
+  const k = !color && await kit().catch(() => null);
+  const set = k && k.findOne(n => n.type === 'COMPONENT_SET' && n.name === 'BG / Pattern');
+  const v = set && set.children.find(c => c.name === name);
+  if (!v) return pattern(f, kind, color, opacity);
+  const i = v.createInstance(); f.insertChild(0, i); i.x = 0; i.y = 0; i.name = 'bg · ' + kind; i.opacity = opacity;
+  return i;
+}
+
 async function buildCarousel(spec) {
   let page = figma.root.children.find(p => p.name === (spec.page || 'Haysam Covers'));
   if (!page) { page = figma.createPage(); page.name = spec.page || 'Haysam Covers'; }
@@ -457,22 +470,13 @@ async function buildCarousel(spec) {
     const s = slides[i];
     const f = figma.createFrame(); f.name = (spec.name || 'Carousel') + ' · ' + pad2(i + 1) + '/' + pad2(n);
     sec.appendChild(f); f.resize(W, SLIDE_H); f.x = PAD + i * (W + GAP); f.y = PAD; f.clipsContent = true;
-    f.fills = [paint(s.bg || spec.bg || '#f6f7ff')];
-    const pat = s.pattern ?? spec.pattern;
-    if (pat) pattern(f, pat.kind || pat, pat.color, pat.opacity ?? 1);
+    f.fills = [paint(s.bg || spec.bg || SLIDE_BG)];
+    const pat = 'pattern' in s ? s.pattern : 'pattern' in spec ? spec.pattern : 'dots';   // false = plain
+    if (pat) await slidePattern(f, pat.kind || pat, pat.color, pat.opacity ?? 1);
     for (const el of s.elements || []) {
       const fn = BUILDERS[el.type]; if (!fn) throw new Error('Unknown element type: ' + el.type);
       const node = await fn(f, el);
       if (el.type === 'image') ids.images[(i + 1) + ':' + (el.slot || 'hero')] = node.id;
-    }
-    const pager = s.pager ?? spec.pager ?? 'count';
-    if (pager === 'count') {
-      const bg = s.bg || spec.bg || '#f6f7ff';                            // gradients: judge by the bottom colour, under the counter
-      const last = typeof bg === 'string' ? bg : bg.stops ? bg.stops[bg.stops.length - 1][1] : Array.isArray(bg) ? [].concat(bg[bg.length - 1]).find(v => typeof v === 'string') : bg.color;
-      const c = last && last !== 'inkMetal' ? hexRGB(last) : { r: 0, g: 0, b: 0 };
-      const dark = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.45;   // light counter on dark slides
-      await text(f, { text: pad2(i + 1) + ' / ' + pad2(n), font: 'brandMedium', size: 28, ls: 4, lh: 100, y: SLIDE_H - 96,
-        color: { color: s.pagerColor || (dark ? '#ffffff' : spec.pagerColor || '#58160c'), opacity: 0.7 }, name: 'pager' });
     }
     ids.slides.push(f.id);
   }

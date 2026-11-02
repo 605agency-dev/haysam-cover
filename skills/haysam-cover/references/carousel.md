@@ -2,26 +2,25 @@
 
 Every slide is a 1080×1350 frame (4:5). Slides sit left to right inside one section on the `Haysam Covers` page. Element types are the same as covers (`references/spec.md`); only the canvas height changes: `y` runs 0 to 1350, no safe band.
 
+**Background, every slide:** the brand lavender gradient (`#E5E9FF` → `#F6F7FF`) with the dot grid (the file's `BG / Pattern` Dots component, `#C7CCEB`). The kit applies both by default. **No page counter** (`02 / 07`): it reads as AI slop.
+
 ```js
 return await buildCarousel({
   name: '5 ta AI tool',
-  bg: '#f6f7ff',                 // default for every slide
-  pattern: null,                 // optional, same as covers
-  pager: 'count',                // 'count' (default) or false
-  pagerColor: '#58160c',         // light slides; dark slides switch to white by themselves
-  log: { layout: 'numbered', bg: '#f6f7ff', font: 'news', accent: '#fee252', idea: '…' },
+  // bg: default ['#e5e9ff', '#f6f7ff'] (brand gradient); pattern: default 'dots', false = plain
+  log: { layout: 'numbered', bg: 'lavender dots', font: 'news', accent: '#df3909', idea: '…' },
   slides: [
-    { bg: '#e5e9ff', elements: [ … ] },            // 1 · hook
+    { elements: [ … ] },                           // 1 · hook
     { elements: [ … ] },                           // 2..n-1 · content
-    { bg: '#270601', elements: [ … ] },            // n · close
+    { elements: [ … ] },                           // n · close
   ],
 });
 // → { section, slides: [id…], images: { '1:hero': id, '2:hero': id, … }, log }
 ```
 
-Per slide: `bg`, `pattern`, `pager` (false hides the counter), `pagerColor`.
+Per slide: `bg`, `pattern` (override only when the idea needs it, e.g. a dark close slide).
 
-The counter (`02 / 06`, JetBrains Mono 28) sits at y 1254. Keep key content above y 1230.
+Keep key content above y 1260 (Instagram's dots and caption overlay the bottom).
 
 ## Structure
 
@@ -29,7 +28,7 @@ The counter (`02 / 06`, JetBrains Mono 28) sits at y 1254. Keep key content abov
 | --- | --- | --- |
 | 1 · hook | the cover idea for the whole post | brand lockup, biggest headline, hero image, optional "Saqlab qo'ying" chip |
 | middle | one point per slide | same grid on every middle slide: number, title, one line, image |
-| last | close | CTA (`pop` / `glassButton`), course name, or a summary list; dark or accent bg is fine here |
+| last | close | CTA (`pop` / `glassButton`), course name, or a summary list |
 
 Text comes from the user's page list. One page text = one slide. Max ~12 words of body per slide; title max 3 words.
 
@@ -39,17 +38,16 @@ Pick one per carousel and repeat it. Rotate the grid between carousels like cove
 
 **Numbered** (lists, tools, tips)
 ```js
-{ type: 'text', text: '01', font: 'premium', size: 200, lh: 100, color: '#58160c', x: 80, y: 64, align: 'left' },
-{ type: 'toolIcon', tool: 'Claude', size: 120, x: 880, y: 104 },
-{ type: 'text', text: 'Claude', font: 'news', size: 120, lh: 95, upper: true, x: 80, y: 310, align: 'left' },
-{ type: 'text', text: 'Post matnini bir daqiqada yozadi.', font: 'uiMedium', size: 40, lh: 130, w: 920, color: '#58160c', x: 80, y: 450, align: 'left' },
-{ type: 'image', slot: 'hero', x: 80, y: 640, w: 920, h: 540, radius: 32 },
+{ type: 'image', slot: 'hero', x: 0, y: 0, w: 1080, h: 806 },          // 4:3 render, cut out (below)
+{ type: 'tile', tool: 'Claude', size: 200, x: 80, y: 690 },             // real logo tile overlaps the image
+{ type: 'text', text: '01', font: 'future', size: 150, lh: 100, color: '#df3909', x: 700, w: 300, align: 'right', y: 720 },
+{ type: 'text', text: 'Claude', font: 'news', size: 150, lh: 95, upper: true, color: '#270601', x: 80, y: 930, align: 'left' },
+{ type: 'text', text: 'Post matnini bir daqiqada yozadi.', font: 'uiMedium', size: 46, lh: 130, w: 900, color: '#270601', x: 80, y: 1100, align: 'left' },
 ```
 
 **Image top** (steps, before/after, how to)
 ```js
 { type: 'image', slot: 'hero', x: 0, y: 0, w: 1080, h: 760 },
-{ type: 'fade', y: 560, h: 220, dir: 'up', color: '#f6f7ff' },
 { type: 'chip', text: '2-qadam', bg: '#fee252', color: '#58160c', x: 80, y: 800 },
 { type: 'text', text: 'Promptni yozing', font: 'news', size: 110, upper: true, x: 80, y: 890, align: 'left' },
 { type: 'text', text: 'Bitta gap: kim, nima, qayerda.', font: 'uiMedium', size: 40, w: 920, color: '#58160c', x: 80, y: 1020, align: 'left' },
@@ -64,12 +62,12 @@ Pick one per carousel and repeat it. Rotate the grid between carousels like cove
 
 ## Images
 
-One Nano Banana 2 image per slide (`aspect_ratio: '4:5'` for full-bleed slides, `'1:1'` or `'16:9'` for framed slots). Write one shared style line (palette, light, material) and reuse it in every prompt so the set matches. Upload all slots in one `upload_assets` call: `nodeIds` in page order, then POST the files in the same order.
+One Nano Banana 2 image per slide (`'4:3'` for the top band, `'1:1'` for a centred hero). Write one shared style line (material, light, the object's own colours) and reuse it in every prompt so the set matches. Prompt **a seamless plain light backdrop** with generous empty space, then run `python3 scripts/cutout.py render.png render-cut.png` on each: the backdrop drops out, objects and soft shadows stay, and the brand gradient + dots show around them. Upload the cut PNGs, one `upload_assets` call, `nodeIds` in page order; check each response's `placedOnNodeId` (a failed first URL can shift the rest: fix by setting `imageHash` on the right node).
 
 ## Check
 
-`get_screenshot` the section (`maxDimension` 2000). Look for: same grid on middle slides, nothing under the counter, the hook readable as a cover, the last slide closing clearly. One fix pass.
+`get_screenshot` the section (`maxDimension` 2000). Look for: same grid on middle slides, no leftover backdrop rectangles or light-ray bands from the renders, the hook readable as a cover, the last slide closing clearly. One fix pass.
 
 ## Colour
 
-Slides with an image follow the image-cover rule: colours come from the pictures (`scripts/palette.py` on the hook image, reuse that palette for the set). Haysam shows only in the logo, tool logo, font and page counter; buttons may keep brand colour.
+Carousels are brand pages: lavender gradient + dot grid, ink `#270601` text, one brand accent (`#DF3909` numbers / dots, yellow `pop` button). The objects inside the cut-out renders keep their own colours (tool colours, topic colours). No lime.

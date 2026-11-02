@@ -61,7 +61,7 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 
 ## Carousels
 
-`buildCarousel(SPEC)` builds 4:5 slides with the same element types. Format and slide grids: `carousel.md`.
+`buildCarousel(SPEC)` builds 4:5 slides with the same element types, on the brand lavender gradient + dot grid by default, without page counters. Format and slide grids: `carousel.md`.
 
 ## Image covers without seams
 

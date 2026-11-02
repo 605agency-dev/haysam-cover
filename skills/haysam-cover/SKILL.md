@@ -39,7 +39,7 @@ On claude.ai (no shell): images cannot be uploaded with curl. Build the cover wi
 | Post type | yangi darslik · taklif/aksiya · qanday qilib · tool yangiligi · raqam/stat · e'lon · faqat logo |
 | Headline | the main words, max ~5 words (you may shorten; show the shortened version) |
 | Extra text | optional: price, date, lesson number, 2–3 chip words |
-| Tool | from `assets/logos/` or the user's official SVG; never a generated logo |
+| Tool | every tool or brand named in the text; each gets its official logo (`assets/logos/` or fetched, `references/figma-build.md` § Setup) |
 | Direction | one sentence: mood, metaphor, what to feel |
 | Image | AI (default) · user's photo · none |
 | CTA | optional button text |
@@ -70,6 +70,7 @@ Rules and examples: `references/idea-engine.md`.
 - Model `nano_banana_2_1` on Higgsfield. Generating the cover image is part of the request; do not ask again. Never generate video unless the user explicitly asks.
 - 9:16 slots: aspect `9:16`; object bands: `1:1`. The prompt's palette comes only from the **topic**; never ask for Haysam colours or the template's background in the prompt.
 - **Image covers: the picture owns the colour.** When a cover has an AI image, its colours come 100% from the topic (a nature lesson looks like nature, a finance topic like finance). Haysam does not tint it. Our style on an image cover is only: the HAYSAM logo (top or bottom), the tool logo, and a fitting font. No brand yellow/brown backgrounds, no comet glow, no yellow stickers. The one exception is a button (`UI / …` components), which may keep brand colour.
+- **A render that sits on a brand background** (carousel slides, object bands on lavender covers) is cut out first: prompt the object floating on a plain backdrop (mid grey `#8C8C8C` for white objects), run `swift scripts/cutout.swift in.png out.png`, check every piece survived (`references/carousel.md` § Images). Never a rectangle of the render's own backdrop on our gradient.
 - Prompt patterns and rules: `references/ai-images.md`.
 - The user's own photo: use it as the image (or as `image_references` for a restyle).
 
@@ -108,6 +109,7 @@ Short, in the user's language: the idea (insight + metaphor), the composition us
 - One accent per post. Near-white backgrounds by default; dark only when the idea needs night/cinema.
 - Image covers: colours from the picture only (`palette`). Brand = logo lockup + tool logo + font; buttons may keep brand colour. Brand colours (yellow, brown, lavender, comet glow) belong to covers without an image.
 - Headline max 2 lines; big. Small meta text is avoided.
+- No AI slop: no page counters (`02 / 07`), no decorative emoji, no filler labels or fake UI captions, no generated logos, no leftover backdrop rectangles or halos around cut-out objects. Every element must carry meaning.
 - No dark outlines on buttons; glow is same-hue.
 - Everything stays editable: real text layers, components, image fills. Never flatten the cover into one picture.
 - Never write to the reference file `5fwBVBqshynrcOhdDIfAKI`. In a duplicate, never change the `COVER SYSTEM` components; edit only what is on `Haysam Covers`.

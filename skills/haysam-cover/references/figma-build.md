@@ -21,7 +21,13 @@ Run the full setup once per file. In a duplicate of the reference (it has `COVER
 
 Adding a tool later: steps 2–3 with just that logo (`PLACED = { 'Kling': '<id>' }`). Name it the way you will write it in SPECs. No shell: paste the SVG text into `INLINE` instead.
 
-Bundled logos (`assets/logos/`): anthropic, canva, chatgpt, claude, elevenlabs, figma, gemini, google, google-veo, notion, perplexity, photoshop, suno, telegram, haysam-*. Anything else: download the official SVG (brand press kit, Wikimedia Commons, `cdn.jsdelivr.net/npm/simple-icons/icons/<slug>.svg` + the brand hex as `fill`). Never draw or generate a logo.
+Bundled logos (`assets/logos/`): anthropic, canva, chatgpt, claude, elevenlabs, figma, gamma, gemini, google, google-veo, grammarly, notebooklm, notion, perplexity, photoshop, suno, telegram, haysam-*.
+
+**Any other brand named in the text gets its real logo too.** Before building, list every tool or brand the post mentions; for each one missing from the file and from `assets/logos/`, fetch the official SVG in this order and add it with steps 2–3:
+1. Simple Icons: `curl -s https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/<slug>.svg` (404 = not there). It is one colour: set `fill` to the brand's own colour on the `<svg>` tag.
+2. The brand's own site: its favicon or logo SVG (`grep` the homepage for `favicon`/`logo` links; e.g. Gamma's `static.gamma.app/favicons/favicon_light.svg`), or its press kit.
+3. Wikimedia Commons (`commons.wikimedia.org`, search "<brand> logo svg").
+Render it once (`qlmanage -t -s 200 file.svg`) to check it is the right mark. Never draw, trace or generate a logo; no official file → write the name instead.
 
 ## Read the COVER LOG (before choosing a layout)
 

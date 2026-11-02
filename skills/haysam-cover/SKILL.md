@@ -90,7 +90,7 @@ When the format is karusel (or the user lists pages / slides), build a carousel 
 - **4:5 only**: every slide is 1080×1350. No 9:16 master, no crop. Element `y` runs 0 to 1350.
 - **Page count is the user's.** Build exactly the number of pages given, one slide per page text, in order. Keep their words; shorten only to fit, and show what you shortened.
 - **Brand background on every slide**: lavender gradient `#E5E9FF` → `#F6F7FF` + the dot grid (kit default). **No page counter** (`01 / 06`): it reads as AI slop.
-- **Every slide has an image** unless the brief says Rasmsiz: one Nano Banana 2 object render per slide on a seamless plain backdrop, then `scripts/cutout.py` drops the backdrop so the object sits on the gradient + dots. Same material and light across the set.
+- **Every slide has an image** unless the brief says Rasmsiz: one Nano Banana 2 object render per slide on a seamless plain neutral backdrop, then `swift scripts/cutout.swift` cuts the object out (no shadows) so it sits on the gradient + dots. Same material and light across the set.
 - **One system across slides**: same mood font, same accent, same grid. Slide 1 is the hook (the cover idea, brand lockup); middle slides share one grid; the last slide closes (CTA, save, or summary).
 - Every tool named on a slide gets its **real logo** (`tile` element); add missing logos from official sources first.
 - Build with `return await buildCarousel(SPEC)` (format: `references/carousel.md`). It returns the section id, slide ids and `images` keyed `page:slot` (`'2:hero'`). Upload images the same way as covers, then screenshot the section once and fix.

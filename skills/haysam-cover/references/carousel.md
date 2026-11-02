@@ -62,7 +62,15 @@ Pick one per carousel and repeat it. Rotate the grid between carousels like cove
 
 ## Images
 
-One Nano Banana 2 image per slide (`'4:3'` for the top band, `'1:1'` for a centred hero). Write one shared style line (material, light, the object's own colours) and reuse it in every prompt so the set matches. Prompt **a seamless plain light backdrop** with generous empty space, then run `python3 scripts/cutout.py render.png render-cut.png` on each: the backdrop drops out, objects and soft shadows stay, and the brand gradient + dots show around them. Upload the cut PNGs, one `upload_assets` call, `nodeIds` in page order; check each response's `placedOnNodeId` (a failed first URL can shift the rest: fix by setting `imageHash` on the right node).
+One Nano Banana 2 image per slide (`'4:3'` for the top band, `'1:1'` for a centred hero). Write one shared style line (material, light, the object's own colours) and reuse it in every prompt so the set matches.
+
+**Cut every render out** so the object sits on the gradient + dots, never a rectangle of its own backdrop:
+
+1. Prompt the object **floating, on a seamless plain backdrop, generous empty space, no floor shadow**. Coloured objects: warm off-white backdrop. White or very light objects (paper, white plastic, frosted glass): flat mid-grey backdrop (`#8C8C8C`), otherwise the cut loses them.
+2. `swift scripts/cutout.swift render.png render-cut.png` (macOS 14+, Apple Vision subject mask): solid edges, no shadows, objects stay opaque. Look at the result: Vision keeps only what it reads as the subject, so small loose pieces or a flat sheet can drop out. Re-render with the pieces touching (one object) or on the grey backdrop.
+3. Not on a Mac: Higgsfield `remove_background` on the render.
+
+Upload the cut PNGs in one `upload_assets` call with `nodeIds` in page order. POST the first URL last (an immediate first POST can 404 and shift the rest) and check each `placedOnNodeId`; fix a wrong slot by setting `imageHash` on the right node.
 
 ## Check
 

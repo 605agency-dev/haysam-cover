@@ -1,6 +1,7 @@
 // HAYSAM COVER KIT · paste this whole file into one use_figma call, then call
 //   return await buildCover(SPEC)        (single cover: 9:16 master + 4:5 crop)
 //   return await buildCarousel(SPEC)     (carousel: N slides, 4:5 only)
+//   return await fromTemplate(SPEC)      (preferred: a real cover from the COVER SYSTEM page, content swapped)
 // at the bottom. SPEC format: references/spec.md. Needs the HAYSAM KIT page
 // (scripts/setup-kit.js) in the same file for brand + tool logos.
 
@@ -60,8 +61,13 @@ async function brandComp(color = 'Ink') {
   return c;
 }
 async function toolComp(name) {
-  const k = await kit();
-  const c = k.findOne(n => n.type === 'COMPONENT' && n.name.toLowerCase() === ('tool / ' + name).toLowerCase());
+  const want = ['tool / ' + name, 'tool / ' + name + ' · icon'].map(s => s.toLowerCase());
+  let c = null;
+  for (const pn of ['HAYSAM KIT', 'COVER SYSTEM']) {
+    const pg = figma.root.children.find(p => p.name === pn); if (!pg) continue;
+    await pg.loadAsync();
+    c = pg.findOne(n => n.type === 'COMPONENT' && want.includes(n.name.toLowerCase())); if (c) break;
+  }
   if (!c) throw new Error('Tool logo missing on HAYSAM KIT: ' + name + ' (add it with setup-kit addTool)');
   return c;
 }
@@ -333,6 +339,64 @@ async function buildCover(spec) {
   return { ...ids, outsideSafeBand: out };
 }
 
+// template mode: the cover is a copy of a COVER SYSTEM component (the team's own design), only content changes.
+// spec: { template: 'Tool Hero', name, texts: { layerName: 'new text' }, tool: 'Claude', brand: 'Ink',
+//         variants: { layerName: { Prop: 'Value' } }, hide: [layerName], log }
+async function fromTemplate(spec) {
+  const sys = figma.root.children.find(p => p.name === 'COVER SYSTEM');
+  if (!sys) throw new Error('COVER SYSTEM page missing: this file is not a copy of the Haysam Cover template');
+  await sys.loadAsync();
+  const key = spec.template.toLowerCase();
+  const tpl = sys.findOne(n => n.type === 'COMPONENT' && n.name.toLowerCase() === 'cover / ' + key + ' · 9:16')
+    || sys.findOne(n => n.type === 'COMPONENT' && n.name.startsWith('Cover / ') && n.name.toLowerCase().includes(key));
+  if (!tpl) throw new Error('Template not found: ' + spec.template);
+
+  let page = figma.root.children.find(p => p.name === (spec.page || 'Haysam Covers'));
+  if (!page) { page = figma.createPage(); page.name = spec.page || 'Haysam Covers'; }
+  await figma.setCurrentPageAsync(page);
+  let maxX = -200; for (const n of page.children) maxX = Math.max(maxX, n.x + n.width);
+  const X = maxX + 200;
+
+  // wrapper component holds the design, so the 4:5 crop (an instance of the wrapper) follows every edit
+  const cover = figma.createComponent(); cover.name = 'Cover / ' + (spec.name || spec.template) + ' · 9:16';
+  page.appendChild(cover); cover.resize(W, H); cover.x = X; cover.y = 0; cover.clipsContent = true; cover.fills = [];
+  // detached copy: pixel-identical to the template, but nested logos/images can be resized and replaced
+  const tmp = tpl.createInstance(); cover.appendChild(tmp); tmp.x = 0; tmp.y = 0;
+  const inst = tmp.detachInstance(); inst.name = 'design · ' + tpl.name.replace('Cover / ', '');
+
+  const byName = name => inst.findOne(n => n.name === name) || inst.findOne(n => n.type === 'TEXT' && n.characters === name);
+  const missing = [];
+  for (const [k, v] of Object.entries(spec.texts || {})) {
+    const t = byName(k);
+    if (!t || t.type !== 'TEXT') { missing.push(k); continue; }
+    for (const f of t.getRangeAllFontNames(0, t.characters.length)) await figma.loadFontAsync(f);
+    t.characters = v;
+  }
+  if (spec.tool) {
+    const comp = await toolComp(spec.tool);
+    for (const i of inst.findAll(n => n.type === 'INSTANCE' && /^Tool \//.test(n.mainComponent?.name || ''))) {
+      const { x, y, width: w, height: h } = i;
+      i.swapComponent(comp);
+      const k = Math.min(w / i.width, h / i.height); i.rescale(k);           // fit the old box, keep aspect
+      i.x = x + (w - i.width) / 2; i.y = y + (h - i.height) / 2;
+    }
+  }
+  if (spec.brand) for (const b of inst.findAll(n => n.type === 'INSTANCE' && n.mainComponent?.parent?.name === 'Brand / HAYSAM')) b.setProperties({ Color: spec.brand });
+  for (const [k, props] of Object.entries(spec.variants || {})) { const n = byName(k); if (n && n.type === 'INSTANCE') n.setProperties(props); else missing.push(k); }
+  for (const k of spec.hide || []) { const n = byName(k); if (n) n.visible = false; else missing.push(k); }
+
+  const images = {};
+  for (const n of inst.findAll(n => 'fills' in n && Array.isArray(n.fills) && n.fills.some(f => f.type === 'IMAGE'))) images[n.name] = n.id;
+
+  const crop = figma.createFrame(); crop.name = 'Cover / ' + (spec.name || spec.template) + ' · 4:5';
+  page.appendChild(crop); crop.resize(W, SAFE_H); crop.clipsContent = true; crop.x = X + W + 80; crop.y = SAFE_TOP; crop.fills = [];
+  const ci = cover.createInstance(); crop.appendChild(ci); ci.x = 0; ci.y = -SAFE_TOP;
+
+  const log = spec.log ? await logCover({ ...spec, log: { ...spec.log, layout: spec.log.layout || spec.template } }) : undefined;
+  figma.viewport.scrollAndZoomIntoView([cover, crop]);
+  return { cover: cover.id, crop: crop.id, template: tpl.name, images, missing, log };
+}
+
 // carousel: every slide is a 1080×1350 frame (4:5 only, element y is 0–1350),
 // laid out left to right inside one section; a page counter sits at the bottom
 async function buildCarousel(spec) {
@@ -378,7 +442,10 @@ async function buildCarousel(spec) {
 // COVER LOG lives in the file itself (HAYSAM KIT page) so the rotation rule
 // survives across chats: read it with readLog() before choosing the next cover.
 async function logNode() {
-  const k = await kit();
+  let k = figma.root.children.find(p => p.name === 'HAYSAM KIT');
+  if (!k) k = figma.root.children.find(p => p.name === 'Haysam Covers');
+  if (!k) { k = figma.createPage(); k.name = 'Haysam Covers'; }
+  await k.loadAsync();
   let t = k.findOne(n => n.type === 'TEXT' && n.name === 'COVER LOG');
   if (!t) {
     await font(['Inter', 'Regular']);

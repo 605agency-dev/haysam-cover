@@ -19,7 +19,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"API kalit kerakmi?","acceptedAnswer":{"@type":"Answer","text":"Yo'q. Figma va Higgsfield'ga o'z profilingiz bilan kirasiz. Plagin hech qanday kalit yoki parol so'ramaydi."}},
-{"@type":"Question","name":"Muqova qayerda paydo bo'ladi?","acceptedAnswer":{"@type":"Answer","text":"Faqat siz bergan Figma faylda, Haysam Covers sahifasida. Haysam namuna fayli faqat o'qiladi."}},
+{"@type":"Question","name":"Muqova qayerda paydo bo'ladi?","acceptedAnswer":{"@type":"Answer","text":"Haysam Cover shablonining sizdagi nusxasida, Haysam Covers sahifasida. Muqova jamoaning COVER SYSTEM komponentlaridan olinadi. Asl shablon o'zgarmaydi."}},
 {"@type":"Question","name":"Rasm qaysi model bilan chiziladi?","acceptedAnswer":{"@type":"Answer","text":"Higgsfield'dagi Nano Banana 2 bilan. Kreditlar sizning Higgsfield hisobingizdan yechiladi."}}
 ]}
 </script>
@@ -131,7 +131,7 @@
       <li class="step">
         <span class="step-num caption-3">02</span>
         <h3 class="title-1">Figma va Higgsfield'ni ulang</h3>
-        <p class="body-6">O'z akkauntingiz bilan kirasiz. Claude birinchi muqovada faylga brend kitini qo'yadi.</p>
+        <p class="body-6">O'z akkauntingiz bilan kirasiz va Haysam Cover shablonini bir marta nusxalaysiz.</p>
       </li>
       <li class="step">
         <span class="step-num caption-3">03</span>
@@ -239,9 +239,9 @@
         </fieldset>
 
         <div class="field">
-          <label class="body-4" for="f-figma">Figma fayl havolasi <span class="muted">(ixtiyoriy)</span></label>
+          <label class="body-4" for="f-figma">Haysam Cover nusxangiz havolasi <span class="muted">(ixtiyoriy)</span></label>
           <input class="input body-3" id="f-figma" name="figma" type="url" inputmode="url" placeholder="https://www.figma.com/design/..." autocomplete="off" aria-describedby="f-figma-hint">
-          <p class="caption-2 muted" id="f-figma-hint">Bo'sh qolsa, Claude sizning Figmangizda yangi fayl ochadi.</p>
+          <p class="caption-2 muted" id="f-figma-hint">Shablondan Duplicate qilingan fayl. Bo'sh qolsa, Claude havolani so'raydi.</p>
         </div>
       </form>
 
@@ -284,6 +284,10 @@
             <p class="body-4">Figma va Higgsfield'ga kiring</p>
             <p class="body-6 muted">Claude'ni qayta ishga tushiring, <code class="inline">/mcp</code> buyrug'ida ikkala xizmatga o'z profilingiz bilan kiring.</p>
           </li>
+          <li>
+            <p class="body-4">Haysam Cover shablonini o'zingizga nusxalang</p>
+            <p class="body-6 muted"><a href="https://www.figma.com/design/5fwBVBqshynrcOhdDIfAKI" target="_blank" rel="noopener">Shablonni oching</a>, Figma menyusida Duplicate ni bosing va nusxa havolasini Claude'ga bering. Muqovalar jamoaning o'z dizaynidan, shu nusxa ichida yasaladi.</p>
+          </li>
         </ol>
       </div>
 
@@ -296,6 +300,10 @@
           <li>
             <p class="body-4">Settings → Capabilities → Skills bo'limida yuklang</p>
             <p class="body-6 muted">Arxivni ochmasdan o'zini yuklang.</p>
+          </li>
+          <li>
+            <p class="body-4">Haysam Cover shablonini o'zingizga nusxalang</p>
+            <p class="body-6 muted"><a href="https://www.figma.com/design/5fwBVBqshynrcOhdDIfAKI" target="_blank" rel="noopener">Shablonni oching</a> va Figma menyusida Duplicate ni bosing.</p>
           </li>
           <li>
             <p class="body-4">Connectors'da Figma va Higgsfield'ni ulang</p>
@@ -311,7 +319,7 @@
     <h2 class="heading-3 section-title" id="savol-title">Savollar</h2>
     <div class="faq">
       <details><summary class="title-2">API kalit kerakmi?</summary><p class="body-6">Yo'q. Figma va Higgsfield'ga o'z profilingiz bilan kirasiz. Plagin hech qanday kalit yoki parol so'ramaydi.</p></details>
-      <details><summary class="title-2">Muqova qayerda paydo bo'ladi?</summary><p class="body-6">Faqat siz bergan Figma faylda, Haysam Covers sahifasida. Fayl bo'lmasa, Claude sizning draftlaringizda yangisini ochadi. Haysam namuna fayli faqat o'qiladi.</p></details>
+      <details><summary class="title-2">Muqova qayerda paydo bo'ladi?</summary><p class="body-6">Shablonning sizdagi nusxasida, Haysam Covers sahifasida. Muqova jamoa chizgan COVER SYSTEM komponentlaridan olinadi, faqat matn, rasm va logo almashadi. Asl shablon hech qachon o'zgarmaydi.</p></details>
       <details><summary class="title-2">Rasm qaysi model bilan chiziladi?</summary><p class="body-6">Higgsfield'dagi Nano Banana 2 bilan. Kreditlar sizning Higgsfield hisobingizdan yechiladi. Video faqat siz alohida so'rasangiz qilinadi.</p></details>
       <details><summary class="title-2">Karusel post ham qila oladimi?</summary><p class="body-6">Ha. Formatda Karuselni tanlab, sahifalar sonini va har sahifa matnini yozasiz. Har sahifa 4:5, rasmli, pastida sahifa raqami bilan; barcha sahifalar bitta uslubda chiqadi.</p></details>
       <details><summary class="title-2">Muqovani keyin o'zgartira olamanmi?</summary><p class="body-6">Ha. Hammasi oddiy Figma qatlamlari: matnni tahrirlaysiz, rasmni almashtirasiz, tugma rangini o'zgartirasiz. 4:5 versiya 9:16 masterdan yangilanadi.</p></details>

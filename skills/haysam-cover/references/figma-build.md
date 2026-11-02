@@ -1,12 +1,14 @@
 # Figma build guide
 
-All writes go to the **user's file**. The Haysam template file `5fwBVBqshynrcOhdDIfAKI` is read-only (screenshots of samples only).
+All writes go to the **user's copy** of the Haysam Cover template (it has the `COVER SYSTEM` page). The original template file `5fwBVBqshynrcOhdDIfAKI` is read-only for everyone.
 
 Before the first call on a file: `create_session(fileKey, description)` and pass the returned `sessionId` on every Figma tool call. Load the Figma `figma-use` skill if the client has it.
 
 `fetch` does not exist inside `use_figma`; files reach Figma through `upload_assets` + curl.
 
 ## Setup (once per file)
+
+In a template copy nothing is needed: brand, glow, buttons and four tool icons are already there. Run only step 2–3 for a missing tool logo (`PLACED` without `haysam`; PART A creates the `HAYSAM KIT` page to hold it). The full setup below is for the fallback plain file.
 
 1. `use_figma` with PART A of `scripts/setup-kit.js` → `{ kitPage, existing }`.
 2. `upload_assets({ fileKey, count: N, currentPageId: kitPage })`, then POST each SVG (no `nodeIds` for SVGs):
@@ -24,13 +26,16 @@ Bundled logos (`assets/logos/`): anthropic, canva, chatgpt, claude, elevenlabs, 
 ## Read the COVER LOG (before choosing a layout)
 
 ```js
-const k = figma.root.children.find(p => p.name === 'HAYSAM KIT');
+const k = figma.root.children.find(p => p.name === 'HAYSAM KIT') || figma.root.children.find(p => p.name === 'Haysam Covers');
+if (!k) return [];
 await k.loadAsync();
 const t = k.findOne(n => n.type === 'TEXT' && n.name === 'COVER LOG');
 return t ? t.characters.split('\n').slice(1).slice(-3) : [];
 ```
 
 ## Build a cover
+
+Preferred: `return await fromTemplate(SPEC)` (`templates.md`). Free composition:
 
 (Carousel: same call with `return await buildCarousel(SPEC)`, see `carousel.md`.)
 

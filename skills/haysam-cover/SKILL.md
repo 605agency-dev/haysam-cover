@@ -1,6 +1,6 @@
 ---
 name: haysam-cover
-description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit.
+description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit. Also triggers on a message containing a HAYSAM BRIEF block.
 ---
 
 # Haysam Cover
@@ -42,6 +42,8 @@ On claude.ai (no shell): images cannot be uploaded with curl. Build the cover wi
 | CTA | optional button text |
 
 If the user gives a full sentence brief, extract the fields yourself and go.
+
+A message with a `HAYSAM BRIEF` block comes from the brief form on haysam-cover.vercel.app. Its lines map to the table (Post turi, Sarlavha, Tool, Yo'nalish, Qo'shimcha matn, Tugma = CTA, Rasm, Figma fayl). Treat it as complete: ask nothing, go straight to the idea. A `Figma fayl` link is the file to build in; without it, use section 1. `Rasm: O'z rasmimni beraman` means wait for the photo before building the image slot.
 
 ## 3 · Idea first
 

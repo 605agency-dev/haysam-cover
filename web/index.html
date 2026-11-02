@@ -32,6 +32,7 @@
     <a class="brand" href="/" aria-current="page"><img src="/favicon.svg" alt="" width="24" height="24"><span class="title-3">Haysam Cover</span></a>
     <ul class="nav-links">
       <li><a class="body-5" href="#qanday">Qanday ishlaydi</a></li>
+      <li><a class="body-5" href="#brif">Brif yozish</a></li>
       <li><a class="body-5" href="#namunalar">Namunalar</a></li>
       <li><a class="body-5" href="#savollar">Savollar</a></li>
     </ul>
@@ -40,6 +41,7 @@
   </nav>
   <div class="mobile-menu" id="mobile-menu" hidden>
     <a class="heading-4" href="#qanday">Qanday ishlaydi</a>
+    <a class="heading-4" href="#brif">Brif yozish</a>
     <a class="heading-4" href="#namunalar">Namunalar</a>
     <a class="heading-4" href="#savollar">Savollar</a>
     <a class="heading-4" href="#ornatish">O'rnatish</a>
@@ -134,7 +136,7 @@
       <li class="step">
         <span class="step-num caption-3">03</span>
         <h3 class="title-1">Brif yozing</h3>
-        <p class="body-6">Post turi, sarlavha, tool va bitta gap. Muqova va uning g'oyasi bir necha daqiqada Figmada.</p>
+        <p class="body-6">Post turi, sarlavha, tool va bitta gap. <a class="link" href="#brif">Shu saytda yozsangiz ham bo'ladi.</a> Muqova bir necha daqiqada Figmada.</p>
       </li>
     </ol>
   </section>
@@ -154,6 +156,86 @@
       <figure><img loading="lazy" src="/covers/k-split.webp" width="540" height="960" alt="Split muqova: Eskizdan suratga, krossovka oldin va keyin"><figcaption class="caption-4">Split · oldin va keyin</figcaption></figure>
       <figure><img loading="lazy" src="/covers/l-mascot.webp" width="540" height="960" alt="Mascot muqova: agentlaring uxlamaydi, geometrik qahramonlar"><figcaption class="caption-4">Mascot · agentlar</figcaption></figure>
       <figure><img loading="lazy" src="/covers/m-wash.webp" width="540" height="960" alt="Colour wash muqova: 12 model bitta joyda, suzuvchi teglar"><figcaption class="caption-4">Colour wash · ro'yxat</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="section reveal" id="brif" aria-labelledby="brif-title">
+    <div class="section-head">
+      <h2 class="heading-3" id="brif-title">Brifni shu yerda yozing</h2>
+      <p class="body-6 muted">Maydonlarni to'ldiring, tayyor brifni Claude'da oching yoki nusxalang. Muqova baribir o'z Claude'ingizda va o'z Figmangizda yasaladi.</p>
+    </div>
+    <div class="composer">
+      <form class="brief-form" id="brief-form" novalidate>
+        <fieldset class="field">
+          <legend class="body-4">Post turi</legend>
+          <div class="chips-input">
+            <label><input type="radio" name="type" value="Yangi darslik" checked><span class="button-sm">Yangi darslik</span></label>
+            <label><input type="radio" name="type" value="Aksiya"><span class="button-sm">Aksiya</span></label>
+            <label><input type="radio" name="type" value="Qanday qilib"><span class="button-sm">Qanday qilib</span></label>
+            <label><input type="radio" name="type" value="Tool yangiligi"><span class="button-sm">Tool yangiligi</span></label>
+            <label><input type="radio" name="type" value="Raqam"><span class="button-sm">Raqam</span></label>
+            <label><input type="radio" name="type" value="E'lon"><span class="button-sm">E'lon</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label class="body-4" for="f-headline">Sarlavha</label>
+          <input class="input body-3" id="f-headline" name="headline" maxlength="60" required placeholder="Saytni o'zing yig'" autocomplete="off" aria-describedby="f-headline-hint">
+          <p class="caption-2 muted" id="f-headline-hint">Beshta so'zgacha. Claude kerak bo'lsa qisqartiradi.</p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="body-4" for="f-tool">Tool</label>
+            <input class="input body-3" id="f-tool" name="tool" list="tools" placeholder="Claude" autocomplete="off">
+            <datalist id="tools">
+              <option value="Claude"><option value="ChatGPT"><option value="Gemini"><option value="Google Veo"><option value="Figma">
+              <option value="Notion"><option value="ElevenLabs"><option value="Suno"><option value="Perplexity"><option value="Photoshop">
+              <option value="Canva"><option value="Telegram"><option value="Google"><option value="Anthropic">
+            </datalist>
+          </div>
+          <div class="field">
+            <label class="body-4" for="f-cta">Tugma matni <span class="muted">(ixtiyoriy)</span></label>
+            <input class="input body-3" id="f-cta" name="cta" maxlength="24" placeholder="Sinab ko'r" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="body-4" for="f-direction">Yo'nalish</label>
+          <textarea class="input body-3" id="f-direction" name="direction" rows="2" maxlength="200" placeholder="Ishonchli kayfiyat, studio, odam qutilardan sayt yig'yapti"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="body-4" for="f-extra">Qo'shimcha matn <span class="muted">(ixtiyoriy)</span></label>
+          <input class="input body-3" id="f-extra" name="extra" maxlength="80" placeholder="Birinchi oy atigi 100 so'm · 12 dars" autocomplete="off">
+        </div>
+
+        <fieldset class="field">
+          <legend class="body-4">Rasm</legend>
+          <div class="chips-input">
+            <label><input type="radio" name="image" value="AI, Nano Banana 2" checked><span class="button-sm">AI yaratadi</span></label>
+            <label><input type="radio" name="image" value="O'z rasmimni beraman"><span class="button-sm">O'z rasmim</span></label>
+            <label><input type="radio" name="image" value="Rasmsiz, faqat tipografika"><span class="button-sm">Rasmsiz</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label class="body-4" for="f-figma">Figma fayl havolasi <span class="muted">(ixtiyoriy)</span></label>
+          <input class="input body-3" id="f-figma" name="figma" type="url" inputmode="url" placeholder="https://www.figma.com/design/..." autocomplete="off" aria-describedby="f-figma-hint">
+          <p class="caption-2 muted" id="f-figma-hint">Bo'sh qolsa, Claude sizning Figmangizda yangi fayl ochadi.</p>
+        </div>
+      </form>
+
+      <aside class="brief-out" aria-labelledby="brief-out-title">
+        <p class="caption-3 brief-label" id="brief-out-title">Tayyor brif</p>
+        <pre class="brief-text" id="brief-text" aria-live="polite"></pre>
+        <div class="brief-actions">
+          <a class="btn btn-primary button-md" id="brief-open" href="https://claude.ai/new" target="_blank" rel="noopener">Claude'da ochish <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <button class="btn btn-secondary button-md" id="brief-copy" type="button"><i class="ph ph-copy" aria-hidden="true"></i> <span>Nusxalash</span></button>
+        </div>
+        <p class="caption-2 muted">Ochishda brif nusxalanadi ham: matn chiqmasa, chatga tashlang. Claude Code yoki Desktop'da shunchaki nusxalab yuboring. Plagin o'rnatilgan bo'lishi kerak.</p>
+        <p class="caption-2 brief-error" id="brief-error" role="status" aria-live="polite"></p>
+      </aside>
     </div>
   </section>
 

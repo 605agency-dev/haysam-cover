@@ -76,3 +76,76 @@ document.querySelectorAll('.copy').forEach(btn => {
     }
   });
 });
+
+// brief composer: fields → ready brief text, claude.ai link, copy; draft kept in this browser only
+const form = document.getElementById('brief-form');
+if (form) {
+  const out = document.getElementById('brief-text');
+  const openBtn = document.getElementById('brief-open');
+  const copyBtn = document.getElementById('brief-copy');
+  const err = document.getElementById('brief-error');
+  const headline = form.elements.headline;
+  const KEY = 'haysam-brief';
+  const rows = [
+    ['type', 'Post turi'], ['headline', 'Sarlavha'], ['tool', 'Tool'], ['direction', "Yo'nalish"],
+    ['extra', "Qo'shimcha matn"], ['cta', 'Tugma'], ['image', 'Rasm'], ['figma', 'Figma fayl'],
+  ];
+  const values = () => Object.fromEntries(rows.map(([k]) => [k, (form.elements[k].value || '').trim().replace(/\s+/g, ' ')]));
+  const build = v => [
+    "Haysam Cover: shu brif bo'yicha muqova yasa.",
+    '',
+    'HAYSAM BRIEF',
+    ...rows.filter(([k]) => v[k]).map(([k, label]) => `${label}: ${v[k]}`),
+  ].join('\n');
+
+  const render = () => {
+    const v = values();
+    if (!v.headline) {
+      out.innerHTML = '<span class="empty">Sarlavhani yozing, brif shu yerda yig\'iladi.</span>';
+    } else {
+      out.textContent = build(v);
+    }
+    openBtn.href = v.headline ? 'https://claude.ai/new?q=' + encodeURIComponent(build(v)) : 'https://claude.ai/new';
+    try { localStorage.setItem(KEY, JSON.stringify(v)); } catch {}
+  };
+
+  const needHeadline = e => {
+    if (headline.value.trim()) { headline.removeAttribute('aria-invalid'); err.textContent = ''; return false; }
+    e?.preventDefault();
+    headline.setAttribute('aria-invalid', 'true');
+    err.textContent = 'Avval sarlavhani yozing.';
+    headline.focus();
+    return true;
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) for (const [k, val] of Object.entries(saved)) {
+      const el = form.elements[k];
+      if (!el || !val) continue;
+      if (el instanceof RadioNodeList) [...el].forEach(r => { r.checked = r.value === val; });
+      else el.value = val;
+    }
+  } catch {}
+
+  form.addEventListener('input', () => { if (headline.value.trim()) needHeadline(); render(); });
+  form.addEventListener('submit', e => e.preventDefault());
+  // also copy, so the brief can be pasted if claude.ai drops the prefilled text (e.g. after sign in)
+  openBtn.addEventListener('click', e => {
+    if (needHeadline(e)) return;
+    navigator.clipboard?.writeText(build(values())).catch(() => {});
+  });
+  copyBtn.addEventListener('click', async () => {
+    if (needHeadline()) return;
+    const label = copyBtn.querySelector('span');
+    try {
+      await navigator.clipboard.writeText(build(values()));
+      label.textContent = 'Nusxalandi';
+      copyBtn.classList.add('done');
+      setTimeout(() => { label.textContent = 'Nusxalash'; copyBtn.classList.remove('done'); }, 1800);
+    } catch {
+      err.textContent = "Nusxalab bo'lmadi. Matnni qo'lda belgilab nusxalang.";
+    }
+  });
+  render();
+}

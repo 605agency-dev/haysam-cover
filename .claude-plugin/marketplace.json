@@ -1,0 +1,13 @@
+{
+  "name": "haysam",
+  "owner": { "name": "Haysam" },
+  "metadata": { "description": "Haysam design tools for Claude" },
+  "plugins": [
+    {
+      "name": "haysam-cover",
+      "source": "./",
+      "description": "Instagram covers in your own Figma: idea, layout, AI image, 9:16 + 4:5.",
+      "version": "1.0.0"
+    }
+  ]
+}

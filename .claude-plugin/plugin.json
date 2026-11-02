@@ -1,0 +1,9 @@
+{
+  "name": "haysam-cover",
+  "version": "1.0.0",
+  "description": "Haysam Instagram cover generator. Give a headline, a tool and one sentence of direction; Claude invents the idea, picks a fresh layout, generates the image with Nano Banana and builds an editable 9:16 + 4:5 cover in your own Figma file.",
+  "author": { "name": "Haysam" },
+  "homepage": "https://haysam-cover.vercel.app",
+  "repository": "https://github.com/605agency-dev/haysam-cover",
+  "keywords": ["instagram", "cover", "figma", "higgsfield", "design", "haysam"]
+}

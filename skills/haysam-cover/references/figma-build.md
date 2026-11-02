@@ -32,6 +32,8 @@ return t ? t.characters.split('\n').slice(1).slice(-3) : [];
 
 ## Build a cover
 
+(Carousel: same call with `return await buildCarousel(SPEC)`, see `carousel.md`.)
+
 One `use_figma` call: the full text of `scripts/kit.js`, then
 
 ```js
@@ -50,7 +52,7 @@ Covers land on page `Haysam Covers`, each new pair to the right of the last. The
 3. curl -s -X POST -F "file=@hero.png;type=image/png" "<submitUrl>"
 ```
 
-Several slots: one `upload_assets` call with `count` = number of slots and matching `nodeIds` order. If a submit URL errors or expires (10 min), request a new one.
+Several slots: one `upload_assets` call with `count` = number of slots and matching `nodeIds` order. Carousels return `images` keyed `page:slot` (`'3:hero'`); pass them in page order. If a submit URL errors or expires (10 min), request a new one.
 
 ## Check
 

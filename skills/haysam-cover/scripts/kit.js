@@ -1,9 +1,10 @@
 // HAYSAM COVER KIT · paste this whole file into one use_figma call, then call
-//   return await buildCover(SPEC)
+//   return await buildCover(SPEC)        (single cover: 9:16 master + 4:5 crop)
+//   return await buildCarousel(SPEC)     (carousel: N slides, 4:5 only)
 // at the bottom. SPEC format: references/spec.md. Needs the HAYSAM KIT page
 // (scripts/setup-kit.js) in the same file for brand + tool logos.
 
-const W = 1080, H = 1920, SAFE_TOP = 285, SAFE_H = 1350;
+const W = 1080, H = 1920, SAFE_TOP = 285, SAFE_H = 1350, SLIDE_H = 1350;
 
 const hexRGB = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join('');
   return { r: parseInt(h.slice(0, 2), 16) / 255, g: parseInt(h.slice(2, 4), 16) / 255, b: parseInt(h.slice(4, 6), 16) / 255 }; };
@@ -330,6 +331,48 @@ async function buildCover(spec) {
   if (spec.log) ids.log = await logCover(spec);
   figma.viewport.scrollAndZoomIntoView([cover, crop]);
   return { ...ids, outsideSafeBand: out };
+}
+
+// carousel: every slide is a 1080×1350 frame (4:5 only, element y is 0–1350),
+// laid out left to right inside one section; a page counter sits at the bottom
+async function buildCarousel(spec) {
+  let page = figma.root.children.find(p => p.name === (spec.page || 'Haysam Covers'));
+  if (!page) { page = figma.createPage(); page.name = spec.page || 'Haysam Covers'; }
+  await figma.setCurrentPageAsync(page);
+  let maxX = -200; for (const n of page.children) maxX = Math.max(maxX, n.x + n.width);
+  const slides = spec.slides || [], n = slides.length, GAP = 40, PAD = 80;
+  if (!n) throw new Error('Carousel needs at least one slide');
+
+  const sec = figma.createSection(); sec.name = 'Carousel / ' + (spec.name || 'untitled') + ' · ' + n + ' × 4:5';
+  page.appendChild(sec); sec.x = maxX + 200; sec.y = 0;
+  sec.resizeWithoutConstraints(PAD * 2 + n * W + (n - 1) * GAP, PAD * 2 + SLIDE_H);
+
+  const ids = { section: sec.id, slides: [], images: {} };
+  const pad2 = i => String(i).padStart(2, '0');
+  for (let i = 0; i < n; i++) {
+    const s = slides[i];
+    const f = figma.createFrame(); f.name = (spec.name || 'Carousel') + ' · ' + pad2(i + 1) + '/' + pad2(n);
+    sec.appendChild(f); f.resize(W, SLIDE_H); f.x = PAD + i * (W + GAP); f.y = PAD; f.clipsContent = true;
+    f.fills = [paint(s.bg || spec.bg || '#f6f7ff')];
+    const pat = s.pattern ?? spec.pattern;
+    if (pat) pattern(f, pat.kind || pat, pat.color, pat.opacity ?? 1);
+    for (const el of s.elements || []) {
+      const fn = BUILDERS[el.type]; if (!fn) throw new Error('Unknown element type: ' + el.type);
+      const node = await fn(f, el);
+      if (el.type === 'image') ids.images[(i + 1) + ':' + (el.slot || 'hero')] = node.id;
+    }
+    const pager = s.pager ?? spec.pager ?? 'count';
+    if (pager === 'count') {
+      const bg = s.bg || spec.bg || '#f6f7ff', c = typeof bg === 'string' && bg !== 'inkMetal' ? hexRGB(bg) : { r: 0, g: 0, b: 0 };
+      const dark = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.45;   // light counter on dark slides
+      await text(f, { text: pad2(i + 1) + ' / ' + pad2(n), font: 'brandMedium', size: 28, ls: 4, lh: 100, y: SLIDE_H - 96,
+        color: { color: s.pagerColor || (dark ? '#ffffff' : spec.pagerColor || '#58160c'), opacity: 0.7 }, name: 'pager' });
+    }
+    ids.slides.push(f.id);
+  }
+  if (spec.log) ids.log = await logCover({ ...spec, log: { ...spec.log, layout: 'carousel ' + n + ' · ' + (spec.log.layout || '') } });
+  figma.viewport.scrollAndZoomIntoView([sec]);
+  return ids;
 }
 
 // COVER LOG lives in the file itself (HAYSAM KIT page) so the rotation rule

@@ -1,13 +1,13 @@
 ---
 name: haysam-cover
-description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit. Also triggers on a message containing a HAYSAM BRIEF block.
+description: Make Haysam Instagram covers (9:16 master + 4:5 feed crop) and carousel posts (4:5 slides with a page counter) as editable layers in the user's own Figma file. Use when the user asks for a Haysam post cover, an Instagram cover for a new lesson ("yangi darslik"), an offer ("1-oy atigi 100 so'm"), a how-to ("qanday qilib…"), tool news, a stat or an announcement, or says "cover", "muqova", "post rasmi", "oblojka", "karusel", "carousel", "slayd". Invents the idea from meaning, picks a fresh layout with the rotation rule, renders the AI image with Nano Banana 2 on Higgsfield, and builds the cover with the bundled Figma kit. Also triggers on a message containing a HAYSAM BRIEF block.
 ---
 
 # Haysam Cover
 
 Haysam is an AI **education** platform. Its covers read as learning content (lesson, course, tutorial, offer), sit in a near-white Higgsfield-style world, and change composition every post. Consistency is hidden: only the team should notice the system.
 
-You turn a short brief into a finished, editable cover in the **user's own Figma file**:
+You turn a short brief into a finished, editable cover (or a carousel, section 7) in the **user's own Figma file**:
 
 1. idea in words → 2. layout from the picker (never repeating the last 3) → 3. AI image (Nano Banana 2) → 4. build with `scripts/kit.js` → 5. check 9:16 and 4:5 → 6. log it.
 
@@ -40,10 +40,11 @@ On claude.ai (no shell): images cannot be uploaded with curl. Build the cover wi
 | Direction | one sentence: mood, metaphor, what to feel |
 | Image | AI (default) · user's photo · none |
 | CTA | optional button text |
+| Format | cover (default) · karusel: page count + the text for each page |
 
 If the user gives a full sentence brief, extract the fields yourself and go.
 
-A message with a `HAYSAM BRIEF` block comes from the brief form on haysam-cover.vercel.app. Its lines map to the table (Post turi, Sarlavha, Tool, Yo'nalish, Qo'shimcha matn, Tugma = CTA, Rasm, Figma fayl). Treat it as complete: ask nothing, go straight to the idea. A `Figma fayl` link is the file to build in; without it, use section 1. `Rasm: O'z rasmimni beraman` means wait for the photo before building the image slot.
+A message with a `HAYSAM BRIEF` block comes from the brief form on haysam-cover.vercel.app. Its lines map to the table (Post turi, Format, Sarlavha, Tool, Yo'nalish, Qo'shimcha matn, Tugma = CTA, Rasm, Figma fayl, Sahifalar). Treat it as complete: ask nothing, go straight to the idea. A `Figma fayl` link is the file to build in; without it, use section 1. `Rasm: O'z rasmimni beraman` means wait for the photo before building the image slot.
 
 ## 3 · Idea first
 
@@ -76,14 +77,26 @@ Paste `scripts/kit.js` plus `return await buildCover(SPEC)` into one `use_figma`
 2. `get_screenshot` the 9:16 cover **and** the 4:5 frame. Fix anything clipped, crowded or unreadable (`outsideSafeBand` lists key layers outside y 285–1635). One fix pass, then stop.
 3. Include `log: { layout, bg, font, accent, idea }` in the SPEC so the cover is written to the COVER LOG.
 
-## 7 · Reply
+## 7 · Carousel posts
+
+When the format is karusel (or the user lists pages / slides), build a carousel instead of a cover:
+
+- **4:5 only**: every slide is 1080×1350. No 9:16 master, no crop. Element `y` runs 0 to 1350.
+- **Page count is the user's.** Build exactly the number of pages given, one slide per page text, in order. Keep their words; shorten only to fit, and show what you shortened.
+- **Every slide has an image** unless the brief says Rasmsiz: one Nano Banana 2 image per slide, aspect `4:5` (`1:1` for object bands), same palette and lighting across the set so it reads as one post.
+- **One system across slides**: same background family, same mood font, same accent. Slide 1 is the hook (the cover idea, brand lockup); middle slides share one grid; the last slide closes (CTA, save, or summary).
+- **Page counter** (`01 / 06`) sits at the bottom of every slide automatically; it turns light on dark slides. `pager: false` hides it on a slide that needs the space.
+- Build with `return await buildCarousel(SPEC)` (format: `references/carousel.md`). It returns the section id, slide ids and `images` keyed `page:slot` (`'2:hero'`). Upload images the same way as covers, then screenshot the section once and fix.
+- Log it like a cover; the layout field is written as `carousel N · <grid>`.
+
+## 8 · Reply
 
 Short, in the user's language: the idea (insight + metaphor), the layout used, the Figma link to the cover (`https://www.figma.com/design/<fileKey>?node-id=<id with - instead of :>`), and one offer (another variant, a different layout, or the matching story/reel frame).
 
 ## Hard rules
 
 - Tool logos: official files only (`assets/logos/`, the brand's press kit, Wikimedia, Simple Icons). Never generated, never redrawn.
-- Key content inside the 4:5 band (y 285–1635 of 1920).
+- Key content inside the 4:5 band (y 285–1635 of 1920). Carousels are 4:5 already: keep key content above the page counter (y < 1230).
 - One accent per post. Near-white backgrounds by default; dark only when the idea needs night/cinema.
 - Headline max 2 lines; big. Small meta text is avoided.
 - No dark outlines on buttons; glow is same-hue.

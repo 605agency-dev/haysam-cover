@@ -3,7 +3,7 @@
 Model id: `nano_banana_2_1`. One image per slot. Do not switch models; never generate video unless the user explicitly asks.
 
 ```
-generate_image({ params: { model: 'nano_banana_2_1', prompt, aspect_ratio: '9:16' | '1:1',
+generate_image({ params: { model: 'nano_banana_2_1', prompt, aspect_ratio: '9:16' | '4:5' | '1:1',
                            medias?: [{ value: <media_id or job_id>, role: 'image_references' }] } })
 jobs_wait({ jobs: [{ index: 0, job_id }] })      // returns the image URL
 ```
@@ -42,6 +42,10 @@ high detail, photographic, adult and premium (not toy, not cartoon), no text, no
 | J UI in Scene | person leaning out of a floating app window, glass cursor nearby, top 40% empty |
 | K Split | one frame split diagonally: left the "before" (sketch, raw), right the "after" (photo, finished) |
 | L Mascot | 4–6 matte geometric characters around an empty centre, playful poses, pastel topic colours on white |
+
+## Carousels
+
+One image per slide, aspect `4:5` for full-bleed slides. Fix one style line (palette, light, material, background hex) and repeat it in every slide prompt so the set looks like one shoot.
 
 ## Glass cursors
 

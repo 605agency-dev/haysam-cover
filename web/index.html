@@ -162,7 +162,7 @@
   <section class="section reveal" id="brif" aria-labelledby="brif-title">
     <div class="section-head">
       <h2 class="heading-3" id="brif-title">Brifni shu yerda yozing</h2>
-      <p class="body-6 muted">Maydonlarni to'ldiring, tayyor brifni Claude'da oching yoki nusxalang. Muqova baribir o'z Claude'ingizda va o'z Figmangizda yasaladi.</p>
+      <p class="body-6 muted">Muqova yoki karusel: maydonlarni to'ldiring, tayyor brifni Claude'da oching yoki nusxalang. Dizayn baribir o'z Claude'ingizda va o'z Figmangizda yasaladi.</p>
     </div>
     <div class="composer">
       <form class="brief-form" id="brief-form" novalidate>
@@ -177,6 +177,25 @@
             <label><input type="radio" name="type" value="E'lon"><span class="button-sm">E'lon</span></label>
           </div>
         </fieldset>
+
+        <fieldset class="field">
+          <legend class="body-4">Format</legend>
+          <div class="chips-input">
+            <label><input type="radio" name="format" value="Muqova" checked><span class="button-sm">Muqova · 9:16 va 4:5</span></label>
+            <label><input type="radio" name="format" value="Karusel"><span class="button-sm">Karusel · 4:5</span></label>
+          </div>
+        </fieldset>
+
+        <div class="carousel-fields" id="carousel-fields" hidden>
+          <div class="field">
+            <label class="body-4" for="f-pages">Sahifalar soni</label>
+            <select class="input body-3 select" id="f-pages" name="pages" aria-describedby="f-pages-hint">
+              <option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            </select>
+            <p class="caption-2 muted" id="f-pages-hint">Har sahifa 4:5, rasmli, pastida sahifa raqami bilan. Birinchi sahifa muqova vazifasini bajaradi.</p>
+          </div>
+          <div class="pages" id="pages-list"></div>
+        </div>
 
         <div class="field">
           <label class="body-4" for="f-headline">Sarlavha</label>
@@ -294,6 +313,7 @@
       <details><summary class="title-2">API kalit kerakmi?</summary><p class="body-6">Yo'q. Figma va Higgsfield'ga o'z profilingiz bilan kirasiz. Plagin hech qanday kalit yoki parol so'ramaydi.</p></details>
       <details><summary class="title-2">Muqova qayerda paydo bo'ladi?</summary><p class="body-6">Faqat siz bergan Figma faylda, Haysam Covers sahifasida. Fayl bo'lmasa, Claude sizning draftlaringizda yangisini ochadi. Haysam namuna fayli faqat o'qiladi.</p></details>
       <details><summary class="title-2">Rasm qaysi model bilan chiziladi?</summary><p class="body-6">Higgsfield'dagi Nano Banana 2 bilan. Kreditlar sizning Higgsfield hisobingizdan yechiladi. Video faqat siz alohida so'rasangiz qilinadi.</p></details>
+      <details><summary class="title-2">Karusel post ham qila oladimi?</summary><p class="body-6">Ha. Formatda Karuselni tanlab, sahifalar sonini va har sahifa matnini yozasiz. Har sahifa 4:5, rasmli, pastida sahifa raqami bilan; barcha sahifalar bitta uslubda chiqadi.</p></details>
       <details><summary class="title-2">Muqovani keyin o'zgartira olamanmi?</summary><p class="body-6">Ha. Hammasi oddiy Figma qatlamlari: matnni tahrirlaysiz, rasmni almashtirasiz, tugma rangini o'zgartirasiz. 4:5 versiya 9:16 masterdan yangilanadi.</p></details>
       <details><summary class="title-2">Nega har safar boshqa layout chiqadi?</summary><p class="body-6">Claude oxirgi uchta muqovani faylning COVER LOG jurnalidan o'qiydi va layout, fon, shrift yoki rangni takrorlamaydi. Bitta layoutni xohlasangiz, brifda ayting.</p></details>
       <details><summary class="title-2">Qaysi toollar logosi bor?</summary><p class="body-6">Claude, ChatGPT, Gemini, Google Veo, Figma, Notion, Canva, Photoshop, Perplexity, ElevenLabs, Suno, Telegram va boshqalar. Yangi tool uchun Claude rasmiy SVG faylni topib kitga qo'shadi.</p></details>

@@ -84,29 +84,61 @@ if (form) {
   const openBtn = document.getElementById('brief-open');
   const copyBtn = document.getElementById('brief-copy');
   const err = document.getElementById('brief-error');
+  const carouselBox = document.getElementById('carousel-fields');
+  const pagesList = document.getElementById('pages-list');
   const headline = form.elements.headline;
   const KEY = 'haysam-brief';
   const rows = [
-    ['type', 'Post turi'], ['headline', 'Sarlavha'], ['tool', 'Tool'], ['direction', "Yo'nalish"],
+    ['type', 'Post turi'], ['format', 'Format'], ['headline', 'Sarlavha'], ['tool', 'Tool'], ['direction', "Yo'nalish"],
     ['extra', "Qo'shimcha matn"], ['cta', 'Tugma'], ['image', 'Rasm'], ['figma', 'Figma fayl'],
   ];
-  const values = () => Object.fromEntries(rows.map(([k]) => [k, (form.elements[k].value || '').trim().replace(/\s+/g, ' ')]));
-  const build = v => [
-    "Haysam Cover: shu brif bo'yicha muqova yasa.",
-    '',
-    'HAYSAM BRIEF',
-    ...rows.filter(([k]) => v[k]).map(([k, label]) => `${label}: ${v[k]}`),
-  ].join('\n');
+  const clean = v => (v || '').trim().replace(/\s+/g, ' ');
+  let pageTexts = [];
+
+  const isCarousel = () => form.elements.format.value === 'Karusel';
+  const pageCount = () => Number(form.elements.pages.value) || 5;
+
+  // one textarea per page; typed text survives count changes
+  const renderPages = () => {
+    const n = pageCount();
+    pagesList.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const row = document.createElement('div'); row.className = 'page-field';
+      const id = 'f-page-' + (i + 1);
+      row.innerHTML = `<span class="page-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+        <div><label class="sr-only" for="${id}">Sahifa ${i + 1}</label>
+        <textarea class="input body-3" id="${id}" rows="1" maxlength="160" placeholder="${i === 0 ? 'Muqova matni' : i === n - 1 ? 'Yakuniy chaqiriq' : 'Sahifa ' + (i + 1) + ' matni'}"></textarea></div>`;
+      const ta = row.querySelector('textarea'); ta.value = pageTexts[i] || '';
+      ta.addEventListener('input', () => { pageTexts[i] = ta.value; });
+      pagesList.appendChild(row);
+    }
+  };
+
+  const values = () => {
+    const v = Object.fromEntries(rows.map(([k]) => [k, clean(form.elements[k].value)]));
+    if (v.format === 'Karusel') v.format = `Karusel, 4:5, ${pageCount()} sahifa`;
+    return v;
+  };
+  const build = v => {
+    const lines = ["Haysam Cover: shu brif bo'yicha " + (isCarousel() ? 'karusel' : 'muqova') + ' yasa.', '', 'HAYSAM BRIEF',
+      ...rows.filter(([k]) => v[k]).map(([k, label]) => `${label}: ${v[k]}`)];
+    if (isCarousel()) {
+      lines.push('Sahifalar:');
+      for (let i = 0; i < pageCount(); i++) lines.push(`${i + 1}. ${clean(pageTexts[i]) || '(Claude yozsin)'}`);
+    }
+    return lines.join('\n');
+  };
 
   const render = () => {
+    carouselBox.hidden = !isCarousel();
     const v = values();
-    if (!v.headline) {
-      out.innerHTML = '<span class="empty">Sarlavhani yozing, brif shu yerda yig\'iladi.</span>';
-    } else {
-      out.textContent = build(v);
-    }
+    if (!v.headline) out.innerHTML = '<span class="empty">Sarlavhani yozing, brif shu yerda yig\'iladi.</span>';
+    else out.textContent = build(v);
     openBtn.href = v.headline ? 'https://claude.ai/new?q=' + encodeURIComponent(build(v)) : 'https://claude.ai/new';
-    try { localStorage.setItem(KEY, JSON.stringify(v)); } catch {}
+    try {
+      const raw = Object.fromEntries(rows.map(([k]) => [k, form.elements[k].value]));
+      localStorage.setItem(KEY, JSON.stringify({ ...raw, pages: form.elements.pages.value, pageTexts }));
+    } catch {}
   };
 
   const needHeadline = e => {
@@ -120,14 +152,18 @@ if (form) {
 
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (saved) for (const [k, val] of Object.entries(saved)) {
-      const el = form.elements[k];
-      if (!el || !val) continue;
-      if (el instanceof RadioNodeList) [...el].forEach(r => { r.checked = r.value === val; });
-      else el.value = val;
+    if (saved) {
+      for (const [k, val] of Object.entries(saved)) {
+        const el = form.elements[k];
+        if (!el || !val || k === 'pageTexts') continue;
+        if (el instanceof RadioNodeList) [...el].forEach(r => { r.checked = r.value === val; });
+        else el.value = val;
+      }
+      if (Array.isArray(saved.pageTexts)) pageTexts = saved.pageTexts;
     }
   } catch {}
 
+  form.addEventListener('change', e => { if (e.target === form.elements.pages) renderPages(); });
   form.addEventListener('input', () => { if (headline.value.trim()) needHeadline(); render(); });
   form.addEventListener('submit', e => e.preventDefault());
   // also copy, so the brief can be pasted if claude.ai drops the prefilled text (e.g. after sign in)
@@ -147,5 +183,6 @@ if (form) {
       err.textContent = "Nusxalab bo'lmadi. Matnni qo'lda belgilab nusxalang.";
     }
   });
+  renderPages();
   render();
 }

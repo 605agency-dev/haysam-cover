@@ -56,3 +56,7 @@ Canvas is 1080 × 1920. Safe band for key content: y 285–1635. Omit `x` on any
 ## Return value
 
 `{ cover, crop, images: { <slot>: nodeId }, outsideSafeBand: [layer names], log }`
+
+## Carousels
+
+`buildCarousel(SPEC)` builds 4:5 slides with the same element types. Format and slide grids: `carousel.md`.

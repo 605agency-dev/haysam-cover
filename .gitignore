@@ -2,3 +2,12 @@
 .env*
 .vercel
 web/downloads/
+# brand kit binaries (rebuilt by brandbook/build_assets.py + build_pdf.py, deployed from local)
+web/brand/*.zip
+web/brand/fonts/
+web/brand/backgrounds/
+web/brand/logos/png/
+web/brand/logos/jpg/
+brandbook/fonts/
+brandbook/thumbs/
+brandbook/brandbook.html

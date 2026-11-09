@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><title>Haysam Brandbook</title>
+<style>
+@font-face{font-family:'JBM';src:url('fonts/JetBrainsMono/JetBrainsMono[wght].ttf');font-weight:100 900}
+@font-face{font-family:'Inter';src:url('fonts/Inter/Inter[opsz,wght].ttf');font-weight:100 900}
+@font-face{font-family:'Anton';src:url('fonts/Anton/Anton-Regular.ttf')}
+@font-face{font-family:'Unbounded';src:url('fonts/Unbounded/Unbounded[wght].ttf');font-weight:200 900}
+@font-face{font-family:'Archivo';src:url('fonts/ArchivoBlack/ArchivoBlack-Regular.ttf')}
+@font-face{font-family:'BigShoulders';src:url('fonts/BigShouldersDisplay/BigShouldersDisplay[wght].ttf');font-weight:100 900}
+@font-face{font-family:'InstrumentSerif';src:url('fonts/InstrumentSerif/InstrumentSerif-Regular.ttf')}
+@font-face{font-family:'Bricolage';src:url('fonts/BricolageGrotesque/BricolageGrotesque[opsz,wdth,wght].ttf');font-weight:200 800}
+@page{size:1920px 1080px;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E5E9FF}
+body{font-family:'Inter';color:#58160C;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+a{color:inherit;text-decoration:none}
+.page{width:1920px;height:1080px;position:relative;overflow:hidden;page-break-after:always;break-after:page;
+  background:radial-gradient(circle,#C7CCEB 1.6px,transparent 2px) 0 0/36px 36px,linear-gradient(180deg,#E5E9FF,#F6F7FF);padding:84px 96px}
+.page.dark{background:#270601;color:#fff}
+.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+.head img{height:34px}
+h1{font-family:'JBM';font-weight:800;font-size:84px;line-height:.95;letter-spacing:-.02em;text-transform:uppercase}
+.lead{font-size:24px;line-height:1.45;max-width:520px;margin-top:22px;color:#58160C}
+.lead b{font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:10px;background:#58160C;color:#fff;font-family:'JBM';font-weight:700;font-size:20px;
+  padding:14px 22px;border-radius:999px;white-space:nowrap}
+.btn span{font-family:'Inter';font-weight:700}
+.btn.sm{font-size:15px;padding:9px 14px;gap:6px}
+.btn.y{background:#FEE252;color:#270601}
+.btn.big{font-size:26px;padding:22px 34px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.split{display:flex;gap:72px;height:820px}
+.left{width:540px;flex:none;display:flex;flex-direction:column}
+.left .foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.right{flex:1;min-width:0}
+.lav{background:#E5E9FF}.white{background:#fff;box-shadow:inset 0 0 0 1px #E2E4F2}.dark{background:#270601}
+.photo{background:linear-gradient(135deg,#3b5b7a,#c98a5a 55%,#2a1a14)}
+
+/* cover */
+.cover{background:#270601 url('../web/brand/backgrounds/haysam-bg-glow-dark-16x9.jpg') center/cover;padding:0}
+.cover .logo{position:absolute;left:1190px;top:120px;height:56px}
+.cover h1{position:absolute;left:1186px;top:420px;color:#fff;font-size:150px}
+.cover .sub{position:absolute;left:1190px;top:750px;font-size:26px;line-height:1.4;color:#F6F7FF;max-width:640px}
+.cover .cta{position:absolute;left:1190px;top:890px;display:flex;gap:14px}
+
+/* logo page */
+.lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 24px}
+.ltile{display:flex;flex-direction:column;gap:12px}
+.lbox{height:190px;border-radius:24px;display:flex;align-items:center;justify-content:center}
+.lbox img{width:72%}
+.lmeta{display:flex;flex-direction:column;gap:2px}
+.lmeta b{font-family:'JBM';font-weight:800;font-size:20px}
+.lmeta span{font-size:16px;opacity:.8}
+.allz{border-radius:24px;border:2px dashed #C7CCEB;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:28px}
+.allz b{font-family:'JBM';font-weight:800;font-size:22px}
+
+/* mark page */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.mtile{display:flex;flex-direction:column;gap:10px}
+.mtile b{font-family:'JBM';font-weight:800;font-size:18px}
+.mbox{height:210px;border-radius:24px;display:flex;align-items:center;justify-content:center}
+.mbox img{height:58%}
+.rules{display:grid;grid-template-columns:0.8fr 1.2fr;gap:24px;margin-top:28px}
+.card{background:#fff;border-radius:24px;padding:26px 28px;box-shadow:0 1px 0 #E2E4F2;height:500px}
+.card h3{font-family:'JBM';font-weight:800;font-size:20px;text-transform:uppercase;margin-bottom:16px}
+.space{position:relative;height:250px;display:flex;align-items:center;justify-content:center}
+.space .zone{position:relative;padding:28px 34px;outline:2px dashed #DF3909;outline-offset:0}
+.space .zone img{height:52px;display:block}
+.space .x{position:absolute;font-family:'JBM';font-weight:700;font-size:14px;color:#DF3909}
+.donts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dn{display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.25}
+.dn .db{height:150px;border-radius:14px;background:#F6F7FF;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.dn .db img{width:78%}
+.dn .db::after{content:'';position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 2px),#DF3909 calc(50% - 1px),#DF3909 calc(50% + 1px),transparent calc(50% + 2px))}
+
+/* colours */
+.swg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.sw{background:#fff;border-radius:24px;overflow:hidden}
+.chip{height:150px;padding:20px 24px;font-family:'JBM';font-weight:800;font-size:24px;display:flex;align-items:flex-end}
+.chip.w{color:#fff}.chip.ink{color:#58160C;box-shadow:inset 0 -1px 0 #E2E4F2}
+.swm{padding:16px 24px 20px;display:flex;flex-direction:column;gap:3px}
+.swm b{font-family:'JBM';font-weight:800;font-size:24px}
+.swm span{font-family:'JBM';font-size:15px;opacity:.75}
+.swm em{font-style:normal;font-size:16px;margin-top:4px}
+.grg{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:26px}
+.gr{display:flex;flex-direction:column;gap:8px;font-family:'JBM';font-size:14px}
+.gbar{height:96px;border-radius:20px;padding:16px 20px;display:flex;align-items:flex-end;font-family:'JBM';font-weight:800;font-size:20px}
+.gbar.w{color:#fff}.gbar.ink{box-shadow:inset 0 0 0 1px #D9DCEF}
+.ratio{display:flex;height:22px;border-radius:999px;overflow:hidden;margin-top:12px}
+
+/* fonts */
+.fg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 22px}
+.fc{background:#fff;border-radius:22px;padding:16px 20px;display:flex;align-items:center;gap:20px;height:182px}
+.fa{font-size:76px;width:118px;text-align:center;line-height:1;flex:none}
+.fm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fk{font-family:'JBM';font-weight:700;font-size:13px;color:#DF3909;text-transform:uppercase;letter-spacing:.08em}
+.fm b{font-family:'JBM';font-weight:800;font-size:20px}
+.fm span{font-size:15px;opacity:.8}
+.fs{font-size:26px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* backgrounds */
+.bgs{display:flex;flex-direction:column;gap:26px}
+.bgrow{display:flex;gap:18px}
+.bgc{display:flex;flex-direction:column;gap:8px}
+.bgc b{font-family:'JBM';font-weight:800;font-size:16px}
+.b45{width:196px;height:245px;border-radius:16px;object-fit:cover;box-shadow:0 0 0 1px #D9DCEF}
+.b169{width:204px;height:115px;border-radius:14px;object-fit:cover}
+.elc{display:flex;flex-direction:column;gap:8px;width:196px;align-items:flex-start}
+.elb{align-self:stretch}
+.elc b{font-family:'JBM';font-weight:800;font-size:15px}
+.elb{height:96px;border-radius:14px;background:#8C8C8C;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.elb img{max-width:100%;max-height:100%}
+.lbl{font-family:'JBM';font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#DF3909;margin-bottom:10px}
+
+/* guide */
+.refs{display:flex;gap:18px;align-items:flex-end}
+.ref{display:flex;flex-direction:column;gap:10px}
+.ref img{border-radius:18px;display:block;box-shadow:0 18px 40px -20px rgba(39,6,1,.45)}
+.ref span{font-size:15px;line-height:1.3;max-width:300px}
+.ref span b{font-family:'JBM';font-weight:800}
+ul.rl{list-style:none;display:flex;flex-direction:column;gap:13px;margin-top:26px}
+ul.rl li{font-size:19px;line-height:1.35;padding-left:30px;position:relative}
+ul.rl li::before{content:'';position:absolute;left:0;top:8px;width:13px;height:13px;border-radius:4px;background:#DF3909}
+ul.rl li.no::before{background:#270601;border-radius:50%}
+
+/* ai */
+.code{background:#270601;color:#F6F7FF;border-radius:28px;padding:48px 52px;font-family:'JBM';font-size:23px;line-height:1.62;white-space:pre;height:100%;display:flex;align-items:center}
+.code .k{color:#FEE252}
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.steps div{font-size:21px;line-height:1.35;display:flex;gap:14px}
+.steps i{font-style:normal;font-family:'JBM';font-weight:800;color:#DF3909;flex:none;width:30px}
+</style></head><body>
+
+<!-- COVER -->
+<section class="page cover">
+  <img class="logo" src="../web/brand/logos/svg/haysam-logo-yellow-white.svg">
+  <h1>Brand<br>book</h1>
+  <p class="sub">Logo, ranglar, shriftlar, fonlar va qo‘llanma — dizayner ham, istalgan AI ham shu kitob bo‘yicha Haysam uslubida ishlaydi.</p>
+  <div class="cta">{{KIT}}</div>
+</section>
+
+<!-- LOGO -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Logo</h1>
+      <p class="lead">Haysam logosi — <b>belgi + HAYSAM</b> yozuvi. Har doim tayyor fayldan foydalaning: qayta chizmang, yozuvni klaviaturada termang, AI bilan yaratmang.</p>
+      <p class="lead">Fonga qarab variant tanlang. 1080 px kenglikdagi dizaynda logo balandligi ~52 px, tepada markazda.</p>
+      
+    </div>
+    <div class="right"><div class="lgrid">{{LOGO_TILES}}
+      <div class="allz"><b>Barcha logolar</b><span style="font-size:16px;line-height:1.4">SVG — vektor · PNG — shaffof, 6000 px · JPG — fon bilan, 6000 px</span><div class="row" style="gap:10px">{{LOGO_ZIPS}}</div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- MARK + RULES -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Belgi va<br>qoidalar</h1>
+      <p class="lead">Belgi yolg‘iz ham ishlaydi: avatar, ilova ikonkasi, stiker, kichik joylar. Shaffof PNG 4000 × 4000 px.</p>
+      <p class="lead">Logo atrofida bo‘sh joy — belgining yarmi. Eng kichik o‘lcham: ekranda 32 px balandlik, bosmada 20 mm kenglik.</p>
+    </div>
+    <div class="right">
+      <div class="mgrid">{{MARK_TILES}}</div>
+      <div class="rules">
+        <div class="card"><h3>Bo‘sh joy</h3>
+          <div class="space"><div class="zone"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+            <span class="x" style="top:16px;left:50%;transform:translateX(-50%)">½ belgi</span></div>
+          <h3 style="margin-top:10px">Eng kichik o‘lcham</h3>
+          <div style="display:flex;align-items:flex-end;gap:36px">
+            <div style="display:flex;flex-direction:column;gap:8px"><img src="../web/brand/logos/svg/haysam-logo-ink.svg" style="height:32px;width:auto;align-self:flex-start"><span style="font-family:'JBM';font-size:14px">ekran · 32 px</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px"><img src="../web/brand/logos/svg/haysam-mark-ink.svg" style="height:32px;width:32px"><span style="font-family:'JBM';font-size:14px">belgi · 32 px</span></div>
+          </div>
+        </div>
+        <div class="card"><h3>Mumkin emas</h3>
+          <div class="donts">
+            <div class="dn"><div class="db"><img src="../web/brand/logos/svg/haysam-logo-ink.svg" style="transform:scaleX(1.35)"></div>Cho‘zish</div>
+            <div class="dn"><div class="db"><img src="../web/brand/logos/svg/haysam-logo-ink.svg" style="transform:rotate(-14deg)"></div>Burish</div>
+            <div class="dn"><div class="db"><img src="../web/brand/logos/svg/haysam-logo-ink.svg" style="filter:hue-rotate(95deg) saturate(3)"></div>Boshqa rang</div>
+            <div class="dn"><div class="db"><img src="../web/brand/logos/svg/haysam-logo-ink.svg" style="filter:drop-shadow(4px 6px 3px rgba(0,0,0,.55))"></div>Soya, effekt</div>
+            <div class="dn"><div class="db" style="background:url('thumbs/haysam-bg-glow-ember-16x9.jpg') center/cover"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>Notinch fonda</div>
+            <div class="dn"><div class="db" style="font-family:'Inter';font-size:44px;font-weight:500;color:#58160C;letter-spacing:-.01em">haysam</div>Eski kichik harfli logo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOURS -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Ranglar</h1>
+      <p class="lead">Asosiy fon — <b>lavanda</b>, matn — <b>ink</b>. Bitta dizaynda faqat <b>bitta aksent</b>: sariq yoki olov.</p>
+      <p class="lead">Rasmli dizaynda ranglarni rasm belgilaydi — Haysam faqat logo, tool logosi va shrift orqali ko‘rinadi.</p>
+      <p class="lead"><b>Laym / kislotali yashil — hech qachon.</b></p>
+      <div class="foot"><div style="font-family:'JBM';font-weight:800;font-size:15px;text-transform:uppercase">Taxminiy nisbat</div>
+        <div class="ratio" style="width:100%"><i style="flex:60;background:#E5E9FF;box-shadow:inset 0 0 0 1px #C7CCEB"></i><i style="flex:25;background:#58160C"></i><i style="flex:10;background:#F6F7FF;box-shadow:inset 0 0 0 1px #C7CCEB"></i><i style="flex:5;background:#FEE252"></i></div>
+        <div style="font-size:15px">fon 60 · ink 25 · oq 10 · aksent 5</div></div>
+    </div>
+    <div class="right">
+      <div class="swg">{{COLOR_CARDS}}</div>
+      <div class="grg">{{GRAD_CARDS}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Shriftlar</h1>
+      <p class="lead">Har postning <b>kayfiyatiga</b> qarab bitta shrift tanlanadi va keyingi postda almashadi — shu bilan lenta jonli, lekin tanish.</p>
+      <p class="lead">Sarlavha katta: 110–230 px (1080 kenglikda), ko‘pi bilan 2 qator, qator oralig‘i 88–95 %. <b>Inter</b> — faqat chip va label. Mayda meta-matn yo‘q.</p>
+      <p class="lead">Hammasi bepul Google Fonts (OFL litsenziya).</p>
+      <div class="foot">{{FONTS_ZIP}}</div>
+    </div>
+    <div class="right"><div class="fg">{{FONT_CARDS}}</div></div>
+  </div>
+</section>
+
+<!-- BACKGROUNDS -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Fonlar</h1>
+      <p class="lead">Standart — <b>lavanda gradient</b> va bitta naqsh: nuqta, chiziq yoki plitka. Karusel sahifalari doim lavanda + nuqta setkada.</p>
+      <p class="lead">To‘q fon faqat kino/tun kayfiyatida. <b>Comet</b> nurining yo‘nalishi bor: sariq bosh asosiy obyektga qaraydi.</p>
+      <div class="foot">{{BG_ZIP}}</div>
+    </div>
+    <div class="right bgs">
+      <div><div class="lbl">Lavanda · 4:5 va 9:16 (2160 px)</div><div class="bgrow">{{LAV_CARDS}}</div></div>
+      <div><div class="lbl">Glow fonlar · 16:9 (3840 × 2160)</div><div class="bgrow">{{GLOW_CARDS}}</div></div>
+      <div><div class="lbl">Elementlar · shaffof PNG</div><div class="bgrow">{{EL_CARDS}}</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>Qo‘llanma</h1>
+      <ul class="rl">
+        <li>Reels kover 1080 × 1920. Muhim narsa <b>y 285–1635</b> ichida — lentadagi 4:5 kesim ham to‘g‘ri chiqadi.</li>
+        <li>Logo tepada, kichik, markazda. Tool bo‘lsa: HAYSAM × [tool logosi] Nomi.</li>
+        <li>Tilga olingan har bir tool — <b>haqiqiy rasmiy logosi</b> bilan.</li>
+        <li>Bitta g‘oya, bitta katta sarlavha, bitta obyekt. Matn — o‘zbekcha (lotin), qisqa, dars yoki foyda sifatida.</li>
+        <li>3D obyektlar: shisha, yuqori detal, mavzu rangi; fonga toza kesilgan.</li>
+        <li class="no">Sahifa raqami (02 / 07), emoji, keraksiz yozuvlar — yo‘q.</li>
+        <li class="no">Reels tugmalari zonasiga (o‘ng 140 px, past 330 px) matn qo‘yilmaydi.</li>
+      </ul>
+    </div>
+    <div class="right" style="display:flex;align-items:flex-end">
+      <div class="refs">
+        <div class="ref"><img src="thumbs/ref-carousel-1.jpg" style="width:448px"><span><b>Karusel · 4:5</b><br>Lavanda + nuqta, katta sarlavha, haqiqiy tool logolari</span></div>
+        <div class="ref"><img src="thumbs/ref-cover-tool-hero.jpg" style="width:315px"><span><b>Tool Hero · 9:16</b><br>To‘q fon, comet, HAYSAM × tool</span></div>
+        <div class="ref"><img src="thumbs/ref-cover-letter.jpg" style="width:315px"><span><b>Xat · 9:16</b><br>Serif salom, shisha obyekt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="page">
+  <div class="head"><img src="../web/brand/logos/svg/haysam-logo-ink.svg"></div>
+  <div class="split">
+    <div class="left">
+      <h1>AI uchun</h1>
+      <p class="lead">Istalgan AI (ChatGPT, Claude, Gemini, Figma AI…) Haysam uslubida dizayn qilishi uchun:</p>
+      <div class="steps">
+        <div><i>01</i><span>Brief faylini yuklab oling va AI ga bering (yoki o‘ngdagi matnni nusxalang).</span></div>
+        <div><i>02</i><span>Logo, shrift va fon fayllarini ham biriktiring — AI ularni qayta chizmasin.</span></div>
+        <div><i>03</i><span>Topshiriq yozing: matn, tool, format. Natijani brief oxiridagi 6 savollik tekshiruv bilan solishtiring.</span></div>
+      </div>
+      <div class="foot">{{AI_BTNS}}</div>
+    </div>
+    <div class="right"><div class="code">{{AI_PROMPT}}</div></div>
+  </div>
+</section>
+
+</body></html>
